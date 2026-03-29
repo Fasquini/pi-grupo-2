@@ -6,8 +6,7 @@ function Header() {
     return (
         <>
             <div id="divTitulo">
-                <h1>Pelis ARN</h1>
-                <img id="logo" src="../img/logo.png" alt="logo"/>
+                <img id="logo" src="../img/ARNMAX_5.png" alt="logo"/>
             </div>
             
             <Navbar />

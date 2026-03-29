@@ -1,18 +1,21 @@
 import React from "react"
 
 import FormBusqueda from "../../components/FormBusqueda/FormBusqueda"
-import SeccionEnCartel from "../../components/SeccionEnCartel/SeccionEnCartel"
+import SeccionPronto from "../../components/SeccionPronto/SeccionPronto"
 import SeccionPopulares from "../../components/SeccionPopulares/SeccionPopulares"
+import SeccionTopRated from "../../components/SeccionTopRated/SeccionTopRated"
 
 function Home(){
     return(
         <>
             <main>
                 <FormBusqueda/>
-                <h2 className="subtituloHome">Peliculas mas populares</h2>
+                <h2 className="subtituloHome">Top Rated</h2>
+                <SeccionTopRated/>
+                <h2 className="subtituloHome">Más populares hoy</h2>
                 <SeccionPopulares/>
-                <h2 className="subtituloHome">Peliculas en cartelera</h2>
-                <SeccionEnCartel/>
+                <h2 className="subtituloHome">Pronto en ARN Max</h2>
+                <SeccionPronto/>
             </main>
         </>
     )

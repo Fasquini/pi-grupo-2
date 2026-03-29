@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { Link } from "react-router-dom";
 import TarjetaPopulares from "../TarjetaPelicula/TarjetaPelicula";
 
 class SeccionPopulares extends Component {
@@ -33,7 +33,9 @@ class SeccionPopulares extends Component {
                             ))}
                         </section>
 
-                        <button className='botonVerTodas'>Ver todas</button>
+                        <button className="botonVerTodas">
+                        <Link to="/Populares">Ver todas</Link> 
+                        </button>
 
                     </>
                 }

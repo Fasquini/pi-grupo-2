@@ -9,7 +9,9 @@ import VerTodas from "./screens/VerTodas/VerTodas";
 import Favoritas from "./screens/Favoritas/Favoritas";
 import Registro from "./screens/Registro/Registro";
 import Login from "./screens/Login/Login";
-
+import Populares from"./screens/Populares/Populares";
+import Pronto from"./screens/Pronto/Pronto";
+import TopRated from "./screens/TopRated/TopRated"
 function App() {
   return (
     <>
@@ -21,6 +23,9 @@ function App() {
             <Route path="/" exact={true} component={Home} />
             <Route path="/UnPersonaje/:id" component={UnaPelicula} />
             <Route path="/VerTodas" component={VerTodas} />
+            <Route path="/TopRated" component={TopRated} />
+            <Route path="/Populares" component={Populares} />
+            <Route path="/Pronto" component={Pronto} />
             <Route path="/Favoritas" component={Favoritas} />
             <Route path="/Registro" component={Registro} />
             <Route path="/Login" component={Login} />
