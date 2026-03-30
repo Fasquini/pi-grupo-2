@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom";
 import { withRouter } from "react-router-dom";
 
@@ -33,7 +33,6 @@ class Login extends Component {
 
     this.setState({ error: "" });
 
-
     this.props.history.push("/");
   }
 
@@ -41,28 +40,28 @@ class Login extends Component {
     return (
       <section>
         <form className="usuario" onSubmit={(e) => this.crearCuenta(e)}>
-          <h2>¡Bienvenido de vuelta!</h2>
+          <h2>¡Bienvenido! Ingresá tu cuenta</h2>
 
           <div>
-         <label for="">Email</label>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={this.state.email}
-            onChange={(e) => this.Cambios(e)}
-          />
+            <label for="">Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={this.state.email}
+              onChange={(e) => this.Cambios(e)}
+            />
           </div>
 
-        <div>
-        <label for="">Contraseña</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Contraseña"
-            value={this.state.password}
-            onChange={(e) => this.Cambios(e)}
-          />
+          <div>
+            <label for="">Contraseña</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              value={this.state.password}
+              onChange={(e) => this.Cambios(e)}
+            />
           </div>
 
           <button type="submit">Iniciar sesión</button>

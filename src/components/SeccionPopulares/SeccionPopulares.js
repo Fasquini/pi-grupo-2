@@ -33,9 +33,13 @@ class SeccionPopulares extends Component {
                             ))}
                         </section>
 
-                        <button className="botonVerTodas">
-                        <Link to="/Populares">Ver todas</Link> 
-                        </button>
+                        <Link to="/Populares" className='botonVerTodas'>
+                            Ver populares
+                        </Link>
+                        
+                        <Link to="/VerTodas" className='botonVerTodas'>
+                            Ver Todas
+                        </Link>
 
                     </>
                 }

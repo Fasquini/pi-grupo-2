@@ -12,6 +12,9 @@ import Login from "./screens/Login/Login";
 import Populares from"./screens/Populares/Populares";
 import Pronto from"./screens/Pronto/Pronto";
 import TopRated from "./screens/TopRated/TopRated"
+import NotFound from "./screens/NotFound/NotFound";
+import Resultados from "./screens/Resultados/Resultados";
+
 function App() {
   return (
     <>
@@ -22,6 +25,8 @@ function App() {
           <Switch>
             <Route path="/" exact={true} component={Home} />
             <Route path="/UnPersonaje/:id" component={UnaPelicula} />
+            <Route path="/UnaPelicula/:id" component={UnaPelicula} />
+            <Route path="/Resultados/:busqueda" component={Resultados} />
             <Route path="/VerTodas" component={VerTodas} />
             <Route path="/TopRated" component={TopRated} />
             <Route path="/Populares" component={Populares} />
@@ -29,6 +34,7 @@ function App() {
             <Route path="/Favoritas" component={Favoritas} />
             <Route path="/Registro" component={Registro} />
             <Route path="/Login" component={Login} />
+            <Route path="" component={NotFound} />
           </Switch>
       </div>
       

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import TarjetaPelicula from "../../components/TarjetaPelicula/TarjetaPelicula";
 
 class SeccionPronto extends Component {
@@ -6,7 +7,8 @@ class SeccionPronto extends Component {
         super(props);
         this.state = {
             datos: "",
-            busqueda: ""
+            busqueda: "",
+            pagina: 1
         };
     }
 
@@ -27,33 +29,61 @@ class SeccionPronto extends Component {
         });
     };
 
+    cargarMas(){
+        let numeroPagina = this.state.pagina + 1
+
+        fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=e25593014aaf22d2e4b4abad5da519dd&page=${numeroPagina}`)
+            .then(response => response.json())
+            .then(data => {
+                let nuevasPeliculas = this.state.datos.results
+
+                for(let i = 0; i < data.results.length; i++){
+                    nuevasPeliculas.push(data.results[i])
+                }
+
+                this.setState({
+                    datos: {
+                        page: this.state.datos.page,
+                        results: nuevasPeliculas,
+                        total_pages: this.state.datos.total_pages,
+                        total_results: this.state.datos.total_results
+                    },
+                    pagina: numeroPagina
+                })
+            })
+            .catch(error => console.log(error))
+    }
+
+    evitarSubmit(event) {
+        event.preventDefault();
+        this.props.history.push("/Resultados?busqueda=" + this.state.busqueda);
+    }
+
     render() {
         if (this.state.datos === "") {
             return <p>cargando...</p>;
         }
 
-        let peliculasFiltradas = this.state.datos.results.filter((pelicula) => {
-            let filtro = this.state.busqueda.toLowerCase();
-            if (filtro === "") {
-                return true;
-            }
-
-            return (
-                pelicula.title.toLowerCase().match(filtro)
-            );
-        });
+        let peliculasFiltradas = this.state.datos.results;
 
         return (
             <>
-                <form className="Filtrado">
+                <form className="formBuscar" onSubmit={(event) => this.evitarSubmit(event)}>
                     <input
+                        className="inputBuscar"
                         type="text"
-                        placeholder="Buscar película..."
+                        placeholder="Buscar..."
                         value={this.state.busqueda}
                         onChange={this.controlarInput}
                     />
+
+                    <button className="botonBuscar" type="submit">
+                        Buscar
+                    </button>
                 </form>
-                <hr></hr>
+
+                <h2 className="subtituloHome">Pronto</h2>
+
                 <section className="seccionTarjetas">
                     {peliculasFiltradas.length > 0 ? (
                         peliculasFiltradas.map((pelis, idx) => (
@@ -69,9 +99,12 @@ class SeccionPronto extends Component {
                         <p>No se encontraron películas.</p>
                     )}
                 </section>
+                <button className="botonVerTodas" onClick={() => this.cargarMas()}>
+                    Cargar más
+                </button>
             </>
         );
     }
 }
 
-export default SeccionPronto
+export default withRouter(SeccionPronto)

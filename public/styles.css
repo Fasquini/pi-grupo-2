@@ -50,7 +50,7 @@ nav ul {
     flex-wrap: wrap;
     align-items: center;
     list-style: none;
-    width: 100%;
+    width: fit-content;
 }
 
 #logo{
@@ -87,8 +87,8 @@ nav ul li {
     color: #fff;    
     padding: 8px 0;
     border-radius: 8px;
-    background: black;
-    color: white;
+    background: white;
+    color: black;
     border-radius: 8px;
     
 }
@@ -120,6 +120,7 @@ nav ul li {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    color: white;
 }
 
 h3{
@@ -137,9 +138,15 @@ h3{
     padding: 12px;
     border: 1px solid rgba(255,255,255,0.2);
     color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-.tarjetaPeli a{
+.tarjetaPeli a {
+    display: block;
+    text-align: left;
+    margin: 10px 0 16px 0;
     color: white;
 }
 .imgTarjetas{
@@ -155,14 +162,29 @@ h3{
   margin: 6px 0;
 }
 
+.tarjetaPeli ul {
+    margin: 0;
+}
+
+.tarjetaPeli li {
+    margin: 0;
+}
+
 .botonMas, .botonVerTodas{
   background: none;
-  border: 1px solid white;
+  border: 2px solid white;
   color: white;
-  border-radius: 6px;
-  padding: 5px 10px;
+  border-radius: 12px;
+  padding: 10px 18px;
   cursor: pointer;
+  font-size: 16px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 10px 20px 0;
+  width: 220px;
 }
+
 .botonVerTodas a{
     color: white;
 }
@@ -179,19 +201,30 @@ h3{
       border: none;
     border-radius: 6px;
     padding: 5px 10px;
+    margin-top: 0;
+}
 
+.tarjetaPeli .botonMas {
+    margin: 10px 0 12px 0;
 }
 
 /* Login y Registro */
+a.Login,
+a.Registro{
+    justify-self: flex-end;
+}
+
 form.usuario{
     display: flex;
     flex-direction: column;
     justify-self: center;
-    width: 600px;
-    border: 1px solid white;
-    border-radius: 12px;
+    width: 760px;
+    border: 1px solid rgba(255,255,255,0.8);
+    border-radius: 18px;
     color: white;
-    padding: 10px;
+    padding: 40px 48px;
+    margin: 30px auto 40px auto;
+    background: linear-gradient(180deg, rgba(12,18,40,0.95) 0%, rgba(7,12,28,0.98) 100%);
 }
 
 .usuario h2{
@@ -264,3 +297,56 @@ footer{
     color: #004085;
 }
 
+.NotFound,
+.NotFound h2,
+.NotFound p {
+    color: white;
+}
+
+/* DETALLE PELICULA */
+.detalle-pelicula-container{
+    color: white;
+    padding-bottom: 200px;
+}
+
+.detalle-pelicula-titulo{
+    color: white;
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 24px;
+}
+
+.detalle-pelicula-card{
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+}
+
+.detalle-pelicula-img{
+    width: 300px;
+    border-radius: 10px;
+}
+
+.detalle-pelicula-info{
+    width: 100%;
+}
+
+.detalle-pelicula-subtitulo{
+    color: white;
+    font-size: 28px;
+    margin: 0 0 18px 0;
+}
+
+.detalle-pelicula-descripcion{
+    color: #e5e7eb;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.detalle-pelicula-texto{
+    color: #e5e7eb;
+    font-size: 18px;
+    line-height: 1.6;
+    margin: 8px 0;
+}

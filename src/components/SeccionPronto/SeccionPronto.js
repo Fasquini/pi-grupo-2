@@ -33,10 +33,13 @@ class SeccionPronto extends Component {
                             ))}
                         </section>
 
-                        <button className="botonVerTodas">
-                        <Link to="/Pronto">Ver todas</Link> 
-                        </button>
+                        <Link to="/Pronto" className="botonVerTodas">Ver estrenos</Link> 
+                        
 
+
+                        <Link to="/VerTodas" className='botonVerTodas'>
+                            Ver Todas
+                        </Link>
                     </>
                 }
 

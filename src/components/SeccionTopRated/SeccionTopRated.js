@@ -32,10 +32,14 @@ class SeccionTopRated extends Component {
                                 <TarjetaPopulares key={idx} img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`} name={pelis.title} desc={pelis.overview} id={pelis.id}/>
                             ))}
                         </section>
+                        
+                        <Link to="/TopRated" className='botonVerTodas'>
+                            Top Rated
+                        </Link>
 
-                        <button className="botonVerTodas">
-                        <Link to="/Populares">Ver todas</Link> 
-                        </button>
+                        <Link to="/VerTodas" className='botonVerTodas'>
+                            Ver Todas
+                        </Link>
 
                     </>
                 }
