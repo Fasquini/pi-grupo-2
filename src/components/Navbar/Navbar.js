@@ -15,6 +15,8 @@ function Navbar() {
         { name: "Login", path: "/Login", clase: "Login" }
     ];
 
+    let usuario = sessionStorage.getItem("usuarioLogueado");
+
     return (
         <nav>
             <ul className="">
@@ -22,7 +24,14 @@ function Navbar() {
             </ul>
 
             <ul>
-                <LiNavbar name={lr} />
+                {usuario === null? (
+                    <LiNavbar name={lr} />
+                ) : (
+                    <li className="usuarioLogueado">
+                        <img src="/img/fotoDePerfil.png" className="fotoDePerfil" />
+                        <p>{usuario}</p>
+                    </li>
+                )}
             </ul>
         </nav>
     );

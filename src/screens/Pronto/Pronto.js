@@ -62,7 +62,7 @@ class SeccionPronto extends Component {
                 ) : (
                     <>
                         <form onSubmit={(event) => this.evitarSubmit(event)}>
-                            <input type="text" className="inputBuscar Filtro" onChange={(event) => this.controlarCambios(event)} value={this.state.valor} />
+                            <input type="text" className="inputBuscar Filtro" placeholder="Buscar..." onChange={(event) => this.controlarCambios(event)} value={this.state.valor} />
                         </form>
 
                         <h2 className="subtituloHome">Pronto</h2>

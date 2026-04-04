@@ -79,8 +79,19 @@ h1{
 
 nav ul li {
     margin-right: 15px; 
+    color: #000;
 }
-
+img.fotoDePerfil{
+    width: 80px;
+}
+.usuarioLogueado p{
+    font-size: 15px;
+}
+.usuarioLogueado{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
 /* Form buscar */
 
 .inputBuscar{
@@ -236,8 +247,7 @@ form.usuario{
     border-radius: 18px;
     color: white;
     padding: 40px 48px;
-    margin: 120px auto;
-    background: linear-gradient(180deg, rgba(12,18,40,0.95) 0%, rgba(7,12,28,0.98) 100%);
+    margin: 120px 120px 0px 120px;
 }
 
 .usuario h2{
@@ -281,6 +291,11 @@ form.usuario{
 }
 .TengoOno a{
     color: #b8daff;
+}
+p.Error{
+    color: rgb(237 18 18 / 73%);
+    width: fit-content;
+    justify-self: center;
 }
 
 /* Screens contenido */

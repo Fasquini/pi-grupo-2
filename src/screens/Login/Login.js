@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom/cjs/react-router-dom";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 class Login extends Component {
   constructor(props) {
@@ -8,7 +7,6 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      confirmarPassword: "",
       error: ""
     };
   }
@@ -19,19 +17,48 @@ class Login extends Component {
     });
   }
 
-  crearCuenta(e) {
+  iniciarSesion(e) {
     e.preventDefault();
 
-    if (
-      this.state.email === "" ||
-      this.state.password === "" ||
-      this.state.confirmarPassword === ""
-    ) {
-      this.setState({ error: "Completá todos los campos" });
+    if (this.state.email === "" || this.state.password === "") {
+      this.setState({
+        error: "Completá todos los campos"
+      });
       return;
     }
 
-    this.setState({ error: "" });
+    let usuariosGuardados = localStorage.getItem("usuarios");
+    let usuarios = localStorage.getItem("usuarios") === null? [] : JSON.parse(localStorage.getItem("usuarios"));
+
+    if (usuariosGuardados === null) {
+      this.setState({
+        error: "No hay usuarios registrados"
+      });
+      return;
+    } else {
+      usuarios = JSON.parse(usuariosGuardados);
+    }
+
+    let usuarioCorrecto = usuarios.filter(
+      (u) =>
+        u.email === this.state.email &&
+        u.password === this.state.password
+    );
+
+    if (usuarioCorrecto.length === 0) {
+      this.setState({
+        error: "Email o contraseña incorrectos"
+      });
+      return;
+    }
+
+    sessionStorage.setItem("usuarioLogueado", this.state.email);
+
+    this.setState({
+      email: "",
+      password: "",
+      error: ""
+    });
 
     this.props.history.push("/");
   }
@@ -39,11 +66,11 @@ class Login extends Component {
   render() {
     return (
       <section>
-        <form className="usuario" onSubmit={(e) => this.crearCuenta(e)}>
+        <form className="usuario" onSubmit={(e) => this.iniciarSesion(e)}>
           <h2>¡Bienvenido! Ingresá tu cuenta</h2>
 
           <div>
-            <label for="">Email</label>
+            <label>Email</label>
             <input
               type="email"
               name="email"
@@ -54,7 +81,7 @@ class Login extends Component {
           </div>
 
           <div>
-            <label for="">Contraseña</label>
+            <label>Contraseña</label>
             <input
               type="password"
               name="password"
@@ -65,10 +92,13 @@ class Login extends Component {
           </div>
 
           <button type="submit">Iniciar sesión</button>
-          <p className="TengoOno"><Link to="/Registro">Crear una cuenta</Link></p>
+
+          <p className="TengoOno">
+            <Link to="/Registro">Crear una cuenta</Link>
+          </p>
         </form>
 
-        {this.state.error !== "" ? <p>{this.state.error}</p> : null}
+        {this.state.error !== "" ? <p className="Error">{this.state.error}</p> : null}
       </section>
     );
   }

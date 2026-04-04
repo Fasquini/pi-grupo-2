@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom/cjs/react-router-dom";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 class FormRegistro extends Component {
   constructor(props) {
@@ -36,12 +35,41 @@ class FormRegistro extends Component {
       return;
     }
 
-        localStorage.setItem("Usuario", this.state.email);
-        localStorage.setItem("contraseñaUsuario", this.state.password);
-    
-        this.setState({ error: "" });
+    let usuariosGuardados = localStorage.getItem("usuarios");
+    let usuarios;
 
-    
+    if (usuariosGuardados === null) {
+      usuarios = [];
+    } else {
+      usuarios = JSON.parse(usuariosGuardados);
+    }
+
+    let repetidos = usuarios.filter((usuario) => usuario.email === this.state.email);
+
+    if (repetidos.length > 0) {
+      this.setState({
+        error: "Ya existe una cuenta vinculada a este correo"
+      });
+      return;
+    }
+
+    let nuevoUsuario = {
+      email: this.state.email,
+      password: this.state.password
+    };
+
+    let nuevosUsuarios = usuarios.concat(nuevoUsuario);
+
+    localStorage.setItem("usuarios", JSON.stringify(nuevosUsuarios));
+
+    sessionStorage.setItem("usuarioLogueado", this.state.email);
+
+    this.setState({
+      email: "",
+      password: "",
+      confirmarPassword: "",
+      error: ""
+    });
 
     this.props.history.push("/");
   }
@@ -51,43 +79,48 @@ class FormRegistro extends Component {
       <section>
         <form className="usuario" onSubmit={(e) => this.crearCuenta(e)}>
           <h2>¡Bienvenido! Creá tu cuenta</h2>
-          <div>
-          <label for="">Email</label>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={this.state.email}
-            onChange={(e) => this.Cambios(e)}
-          />
-        </div>
-        <div>
-          <label for="">Contraseña</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Creá una contraseña"
-            value={this.state.password}
-            onChange={(e) => this.Cambios(e)}
-          />
-        </div>
 
-        <div>
-          <label for="">Confirmar contraseña</label>
-          <input
-            type="password"
-            name="confirmarPassword"
-            placeholder="Confirmá tu contraseña"
-            value={this.state.confirmarPassword}
-            onChange={(e) => this.Cambios(e)}
-          />
-        </div>
+          <div>
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={this.state.email}
+              onChange={(e) => this.Cambios(e)}
+            />
+          </div>
+
+          <div>
+            <label>Contraseña</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Creá una contraseña"
+              value={this.state.password}
+              onChange={(e) => this.Cambios(e)}
+            />
+          </div>
+
+          <div>
+            <label>Confirmar contraseña</label>
+            <input
+              type="password"
+              name="confirmarPassword"
+              placeholder="Confirmá tu contraseña"
+              value={this.state.confirmarPassword}
+              onChange={(e) => this.Cambios(e)}
+            />
+          </div>
 
           <button type="submit">Crear cuenta</button>
-          <p className="TengoOno"><Link to="/Login">Ya tengo una cuenta</Link></p>
+
+          <p className="TengoOno">
+            <Link to="/Login">Ya tengo una cuenta</Link>
+          </p>
         </form>
 
-        {this.state.error !== "" ? <p>{this.state.error}</p> : null}
+        {this.state.error !== "" ? <p className="Error" >{this.state.error}</p> : ""}
       </section>
     );
   }
