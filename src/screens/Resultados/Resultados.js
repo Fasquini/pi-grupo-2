@@ -12,10 +12,7 @@ class Resultados extends Component {
     }
 
     componentDidMount() {
-        fetch(
-            "https://api.themoviedb.org/3/search/movie?api_key=e25593014aaf22d2e4b4abad5da519dd&query=" +
-                this.props.match.params.busqueda
-        )
+        fetch("https://api.themoviedb.org/3/search/movie?api_key=e25593014aaf22d2e4b4abad5da519dd&query=" + this.props.match.params.busqueda)
             .then((response) => response.json())
             .then((data) => {
                 console.log(data);

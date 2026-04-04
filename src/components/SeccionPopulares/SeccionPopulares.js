@@ -4,7 +4,7 @@ import TarjetaPopulares from "../TarjetaPelicula/TarjetaPelicula";
 
 class SeccionPopulares extends Component {
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             datos: "",
         }
