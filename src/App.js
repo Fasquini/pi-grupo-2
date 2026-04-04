@@ -24,7 +24,6 @@ function App() {
 
           <Switch>
             <Route path="/" exact={true} component={Home} />
-            <Route path="/UnPersonaje/:id" component={UnaPelicula} />
             <Route path="/UnaPelicula/:id" component={UnaPelicula} />
             <Route path="/Resultados/:busqueda" component={Resultados} />
             <Route path="/VerTodas" component={VerTodas} />

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import TarjetaPopulares from "../TarjetaPelicula/TarjetaPelicula";
 
-class SeccionTopRated extends Component {
+class TopRated extends Component {
     constructor(props) {
         super();
         this.state = {
@@ -21,18 +21,18 @@ class SeccionTopRated extends Component {
             )
             .catch(error => console.log(error))
     }
-    
+
     render() {
         return (
             <>
                 {this.state.datos === "" ? <p>cargando...</p> :
                     <>
                         <section className="seccionTarjetas">
-                            {this.state.datos.results.slice(0, 8).map((pelis, idx) => (
-                                <TarjetaPopulares key={idx} img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`} name={pelis.title} desc={pelis.overview} id={pelis.id}/>
+                            {this.state.datos.results.filter((pelis, idx) => 8 > idx).map((pelis, idx) => (
+                                <TarjetaPopulares key={idx} img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`} name={pelis.title} desc={pelis.overview} id={pelis.id} />
                             ))}
                         </section>
-                        
+
                         <Link to="/TopRated" className='botonVerTodas'>
                             Top Rated
                         </Link>
@@ -49,4 +49,4 @@ class SeccionTopRated extends Component {
     }
 }
 
-export default SeccionTopRated
+export default TopRated

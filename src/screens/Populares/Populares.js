@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import TarjetaPelicula from "../../components/TarjetaPelicula/TarjetaPelicula";
-import FormBusqueda from "../../components/FormBusqueda/FormBusqueda";
 
 class SeccionPopulares extends Component {
     constructor(props) {
@@ -8,7 +7,8 @@ class SeccionPopulares extends Component {
         this.state = {
             datos: "",
             busqueda: "",
-            pagina: 1
+            pagina: 1,
+            valor: ""
         };
     }
 
@@ -17,36 +17,36 @@ class SeccionPopulares extends Component {
             .then(response => response.json())
             .then(data =>
                 this.setState({
-                    datos: data
+                    datos: data,
+                    pagina: 1
                 })
             )
             .catch(error => console.log(error));
     }
 
-    controlarInput = (e) => {
-        this.setState({
-            busqueda: e.target.value
-        });
-    };
+    evitarSubmit(event) {
+        event.preventDefault()
+    }
 
-    cargarMas(){
+    controlarCambios(event) {
+        this.setState({ valor: event.target.value })
+    }
+
+    filtrarPelis(textoAFiltrar) {
+        let filtrados = this.state.datos.results.filter((pelis) => pelis.title.toLowerCase().includes(textoAFiltrar.toLowerCase()))
+        return filtrados
+    }
+
+    cargarMas() {
         let numeroPagina = this.state.pagina + 1
 
         fetch(`https://api.themoviedb.org/3/movie/popular?api_key=e25593014aaf22d2e4b4abad5da519dd&page=${numeroPagina}`)
             .then(response => response.json())
             .then(data => {
-                let nuevasPeliculas = this.state.datos.results
-
-                for(let i = 0; i < data.results.length; i++){
-                    nuevasPeliculas.push(data.results[i])
-                }
 
                 this.setState({
                     datos: {
-                        page: this.state.datos.page,
-                        results: nuevasPeliculas,
-                        total_pages: this.state.datos.total_pages,
-                        total_results: this.state.datos.total_results
+                        results: this.state.datos.results.concat(data.results),
                     },
                     pagina: numeroPagina
                 })
@@ -61,20 +61,26 @@ class SeccionPopulares extends Component {
                     <p>cargando...</p>
                 ) : (
                     <>
-                        <FormBusqueda />
+
+                        <form onSubmit={(event) => this.evitarSubmit(event)}>
+                            <input type="text" className="inputBuscar Filtro" onChange={(event) => this.controlarCambios(event)} value={this.state.valor} />
+                        </form>
+
 
                         <h2 className="subtituloHome">Populares</h2>
 
                         <section className="seccionTarjetas">
-                            {this.state.datos.results.map((pelis, idx) => (
-                                <TarjetaPelicula
-                                    key={idx}
-                                    img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`}
-                                    name={pelis.title}
-                                    desc={pelis.overview}
-                                    id={pelis.id}
-                                />
-                            ))}
+                            {(this.filtrarPelis(this.state.valor).length === 0) ? (<p>no se encontraron resultados</p>) :
+
+                                (this.filtrarPelis(this.state.valor).map((pelis, idx) => (
+                                    <TarjetaPelicula
+                                        key={idx}
+                                        img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`}
+                                        name={pelis.title}
+                                        desc={pelis.overview}
+                                        id={pelis.id}
+                                    />
+                                )))}
                         </section>
                         <button className="botonVerTodas" onClick={() => this.cargarMas()}>
                             Cargar más
