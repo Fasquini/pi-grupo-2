@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 class TarjetaPopulares extends Component {
 
     constructor(props) {
-        super();
+        super(props);
         this.state = {
             verMas: false
         }

@@ -7,6 +7,15 @@
 }
 #root{
     background-color: #0b1120;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+html, body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 ul,ol {
@@ -24,7 +33,7 @@ a {
 
 body {
     margin: 0;
-    background-color: #eee;
+        background-color: #0b1120;
 }
 
 #divContenedor{
@@ -227,7 +236,7 @@ form.usuario{
     border-radius: 18px;
     color: white;
     padding: 40px 48px;
-    margin: 30px auto 40px auto;
+    margin: 120px auto;
     background: linear-gradient(180deg, rgba(12,18,40,0.95) 0%, rgba(7,12,28,0.98) 100%);
 }
 
@@ -294,11 +303,13 @@ form.usuario{
 footer{
     height: 60px;
     background-color: #cce5ff;
-    margin: 20px 0px;
+    margin: 20px 0 0 0;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-items: center;
     color: #004085;
+    margin-top: auto;
 }
 
 .NotFound,
@@ -353,4 +364,8 @@ footer{
     font-size: 18px;
     line-height: 1.6;
     margin: 8px 0;
+}
+
+footer{
+    margin-top: auto;
 }
