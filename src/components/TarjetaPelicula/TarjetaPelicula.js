@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom";
 
-class TarjetaPopulares extends Component {
+class TarjetaPeliculas extends Component {
 
     constructor(props) {
         super(props);
@@ -39,4 +39,4 @@ class TarjetaPopulares extends Component {
     }
 }
 
-export default TarjetaPopulares
+export default TarjetaPeliculas

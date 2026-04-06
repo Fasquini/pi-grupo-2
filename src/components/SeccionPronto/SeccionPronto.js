@@ -33,13 +33,19 @@ class SeccionPronto extends Component {
                             ))}
                         </section>
 
+                        <article className= "botones">
+
+                            
+
                         <Link to="/Pronto" className="botonVerTodas">Ver estrenos</Link>
 
+                        
 
-
-                        <Link to="/VerTodas" className='botonVerTodas'>
-                            Ver Todas
+                        <Link to="/VerTodas" className='botonVerTodasLasPelis'>
+                            Ver Todas Las Peliculas
                         </Link>
+                        
+                        </article>
                     </>
                 }
 

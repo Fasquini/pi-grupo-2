@@ -11,7 +11,7 @@ class UnaPelicula extends Component {
     componentDidMount() {
         let id = this.props.match.params.id
 
-        fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=81dded2ba544d830e45caeb888ae898e&language=es-ES`)
+        fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=81dded2ba544d830e45caeb888ae898e&`)
             .then(response => response.json())
             .then(data => {
                 this.setState({

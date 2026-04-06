@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import TarjetaPopulares from "../TarjetaPelicula/TarjetaPelicula";
+import Tarjetaspeliculas from "../TarjetaPelicula/TarjetaPelicula";
 
 class SeccionPopulares extends Component {
     constructor(props) {
@@ -29,7 +29,7 @@ class SeccionPopulares extends Component {
                     <>
                         <section className="seccionTarjetas">
                             {this.state.datos.results.filter((pelis, idx) => 8 > idx).map((pelis, idx) => (
-                                <TarjetaPopulares key={idx} img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`} name={pelis.title} desc={pelis.overview} id={pelis.id} />
+                                <Tarjetaspeliculas key={idx} img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`} name={pelis.title} desc={pelis.overview} id={pelis.id} />
                             ))}
                         </section>
 
@@ -37,9 +37,7 @@ class SeccionPopulares extends Component {
                             Ver populares
                         </Link>
 
-                        <Link to="/VerTodas" className='botonVerTodas'>
-                            Ver Todas
-                        </Link>
+                       
 
                     </>
                 }

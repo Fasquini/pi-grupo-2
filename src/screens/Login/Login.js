@@ -40,9 +40,9 @@ class Login extends Component {
     }
 
     let usuarioCorrecto = usuarios.filter(
-      (u) =>
-        u.email === this.state.email &&
-        u.password === this.state.password
+      (usuario) =>
+        usuario.email === this.state.email &&
+        usuario.password === this.state.password
     );
 
     if (usuarioCorrecto.length === 0) {

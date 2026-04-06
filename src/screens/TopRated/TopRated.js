@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TarjetaPopulares from "../../components/TarjetaPelicula/TarjetaPelicula";
+import TarjetaPeliculas from "../../components/TarjetaPelicula/TarjetaPelicula";
 
 class TopRated extends Component {
     constructor(props) {
@@ -72,7 +73,7 @@ class TopRated extends Component {
                             {(this.filtrarPelis(this.state.valor).length === 0) ? (<p>no se encontraron resultados</p>) :
 
                                 (this.filtrarPelis(this.state.valor).map((pelis, idx) => (
-                                    <TarjetaPopulares
+                                    <TarjetaPeliculas
                                         key={idx}
                                         img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`}
                                         name={pelis.title}
