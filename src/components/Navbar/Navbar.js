@@ -28,7 +28,7 @@ function Navbar() {
                     <LiNavbar name={lr} />
                 ) : (
                     <li className="usuarioLogueado">
-                        <img src="/img/fotoDePerfil.png" className="fotoDePerfil" />
+                        <img src="/img/fotoDePerfil.png" className="fotoDePerfil" alt="foto de perfil"/>
                         <p>{usuario}</p>
                     </li>
                 )}

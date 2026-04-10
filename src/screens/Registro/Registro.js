@@ -36,7 +36,7 @@ class FormRegistro extends Component {
     }
 
     let usuariosGuardados = localStorage.getItem("usuarios");
-    let usuarios;
+    let usuarios = null;
 
     if (usuariosGuardados === null) {
       usuarios = [];

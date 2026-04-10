@@ -407,3 +407,114 @@ footer{
 footer{
     margin-top: auto;
 }
+
+@media (max-width: 480px) {
+    .formBuscar{
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .inputBuscar,
+    .botonBuscar,
+    .Filtro,
+    .Filtrado,
+    .Filtrado input{
+        width: 100%;
+        margin: 0 0 12px 0;
+    }
+
+    .inputBuscar{
+        padding: 16px;
+        font-size: 18px;
+        border-radius: 14px;
+    }
+
+    .botonBuscar{
+        width: 100%;
+        padding: 14px 0;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 14px;
+    }
+
+    .subtituloHome{
+        font-size: 20px;
+        padding: 14px 12px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .seccionTarjetas{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tarjetaPeli{
+        width: 100%;
+        margin: 15px 0;
+        padding: 10px;
+    }
+
+    .imgTarjetas{
+        height: 100%;
+    }
+
+    .tarjetaPeli h3{
+        font-size: 22px;
+        line-height: 1.3;
+    }
+
+    .tarjetaPeli p,
+    .tarjetaPeli a{
+        font-size: 16px;
+    }
+
+    .botones{
+        width: 100%;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .botonMas,
+    .botonVerTodas,
+    .botonVerTodasLasPelis,
+    .botonFav{
+        width: 100%;
+        margin: 8px 0;
+        text-align: center;
+        font-size: 16px;
+        padding: 12px 14px;
+        border-radius: 14px;
+    }
+
+    .botonVerTodas a{
+        display: block;
+        width: 100%;
+    }
+
+    form.usuario{
+        width: 100%;
+        margin: 32px 0 40px 0;
+        padding: 24px 18px;
+        border-radius: 16px;
+    }
+
+    .usuario h2{
+        font-size: 24px;
+        text-align: center;
+        margin-bottom: 18px;
+    }
+
+    .usuario div{
+        width: 100%;
+    }
+
+    .usuario input,
+    .usuario button{
+        width: 100%;
+        height: 48px;
+    }
+}
