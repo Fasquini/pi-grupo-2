@@ -356,6 +356,12 @@ footer{
     color: white;
 }
 
+.loader{
+    display: block;
+    margin: 40px auto;
+    width: 90px;
+}
+
 /* DETALLE PELICULA */
 .detalle-pelicula-container{
     color: white;

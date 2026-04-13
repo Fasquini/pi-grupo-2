@@ -58,7 +58,7 @@ class SeccionPronto extends Component {
         return (
             <>
                 {this.state.datos === "" ? (
-                    <p>cargando...</p>
+                    <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
                 ) : (
                     <>
                         <form onSubmit={(event) => this.evitarSubmit(event)}>

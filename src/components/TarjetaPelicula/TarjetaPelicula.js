@@ -27,7 +27,7 @@ class TarjetaPeliculas extends Component {
                         <p>{this.props.desc} </p> </div> : ""}
                     <button className='botonMas' onClick={() => this.VerMas()}> {this.state.verMas === true ? "Ver menos" : "Ver más"}</button>
                     
-                    <ul><li><Link to={`/UnaPelicula/${this.props.id}`}>Ir a detalle</Link></li></ul>    
+                    <ul><li><Link to={`/UnaPelicula/${this.props.id}`}>Ir a detalle</Link></li></ul>
 
                     <button className='botonFav' >Agregar a favoritos</button>
 

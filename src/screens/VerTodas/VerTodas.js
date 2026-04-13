@@ -49,6 +49,9 @@ class Peliculas extends Component {
         let peliculasFiltradas = this.state.resultados;
 
         return (
+        this.state.resultados === "" ? (
+            <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
+    ) : (
             <>
                 <FormBusqueda />
 
@@ -75,6 +78,7 @@ class Peliculas extends Component {
                     Cargar más
                 </button>
             </>
+    )
         );
     }
 }

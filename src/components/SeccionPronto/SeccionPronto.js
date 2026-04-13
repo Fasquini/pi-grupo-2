@@ -25,7 +25,7 @@ class SeccionPronto extends Component {
     render() {
         return (
             <>
-                {this.state.datos === "" ? <p>cargando...</p> :
+                {this.state.datos === "" ? <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" /> :
                     <>
                         <section className="seccionTarjetas">
                             {this.state.datos.results.filter((pelis, idx) => 8 > idx).map((pelis, idx) => (

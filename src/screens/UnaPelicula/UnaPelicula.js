@@ -26,7 +26,7 @@ class UnaPelicula extends Component {
             <div className="detalle-pelicula-container">
                 {
                     this.state.pelicula === "" 
-                        ? <img src="https://i.gifer.com/ZZ5H.gif" alt="loader" /> 
+                        ? <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" /> 
                         : null
                 }
 
@@ -57,6 +57,21 @@ class UnaPelicula extends Component {
                                         <p className="detalle-pelicula-texto"><strong>Fecha de estreno:</strong> {this.state.pelicula.release_date}</p>
                                         <p className="detalle-pelicula-texto"><strong>Duración:</strong> {this.state.pelicula.runtime}</p>
                                         <p className="detalle-pelicula-texto"><strong>Puntuación:</strong> {this.state.pelicula.vote_average}</p>
+                                        <p className="detalle-pelicula-texto">
+                                            <strong>{
+                                                this.state.pelicula.genres && this.state.pelicula.genres.length === 1
+                                                ? "Género:"
+                                                : "Géneros:"
+                                            }</strong> {
+                                                this.state.pelicula.genres && this.state.pelicula.genres.length > 0
+                                                ? this.state.pelicula.genres.map((gen, idx) => (
+                                                    <span key={idx}>
+                                                        {gen.name}{idx < this.state.pelicula.genres.length - 1 ? ", " : ""}
+                                                    </span>     
+                                                ))
+                                                : "Sin datos"
+                                            }
+                                        </p>
                                     </div>
                                 </div>
                             </div>

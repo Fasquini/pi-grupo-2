@@ -24,18 +24,15 @@ class Resultados extends Component {
     }
 
     render() {
-        if (this.state.datos === "") {
-            return <p>Cargando...</p>;
-        }
-
-        return (
+    return (
+        this.state.datos === "" ? (
+            <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
+        ) : (
             <>
                 <FormBusqueda />
-
                 <h2 className="subtituloHome">
                     Resultados para: "{this.props.match.params.busqueda}"
                 </h2>
-
                 <section className="seccionTarjetas">
                     {this.state.datos.results.length === 0 ? (
                         <p>No se encontraron resultados.</p>
@@ -52,8 +49,9 @@ class Resultados extends Component {
                     )}
                 </section>
             </>
-        );
-    }
+        )
+    );
+}
 }
 
 export default Resultados;
