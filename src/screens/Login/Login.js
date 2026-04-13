@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
+import Cookies from "universal-cookie";
+const cookie = new Cookies()
 
 class Login extends Component {
   constructor(props) {
@@ -35,7 +37,8 @@ class Login extends Component {
         error: "No hay usuarios registrados"
       });
       return;
-    } else {
+    } 
+    else {
       usuarios = JSON.parse(usuariosGuardados);
     }
 
@@ -53,6 +56,7 @@ class Login extends Component {
     }
 
     sessionStorage.setItem("usuarioLogueado", this.state.email);
+    cookie.set("user-auth-cookie", this.state.email)
 
     this.setState({
       email: "",

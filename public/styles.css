@@ -523,4 +523,51 @@ footer{
         width: 100%;
         height: 48px;
     }
+
+    footer{
+        height: auto;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .detalle-pelicula-container{
+        padding-bottom: 60px;
+    }
+
+    .detalle-pelicula-titulo{
+        font-size: 28px;
+        text-align: center;
+        margin-bottom: 18px;
+    }
+
+    .detalle-pelicula-card{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .detalle-pelicula-img{
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .detalle-pelicula-info{
+        width: 100%;
+        text-align: center;
+    }
+
+    .detalle-pelicula-subtitulo{
+        font-size: 22px;
+    }
+
+    .detalle-pelicula-descripcion,
+    .detalle-pelicula-texto{
+        font-size: 16px;
+    }
+
+    .NotFound,
+    .NotFound h2,
+    .NotFound p{
+        text-align: center;
+    }
+
 }

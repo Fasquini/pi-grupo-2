@@ -21,12 +21,13 @@ class FormRegistro extends Component {
   crearCuenta(e) {
     e.preventDefault();
 
-    if (
-      this.state.email === "" ||
-      this.state.password === "" ||
-      this.state.confirmarPassword === ""
-    ) {
+    if (this.state.email === "" || this.state.password === "" || this.state.confirmarPassword === "") {
       this.setState({ error: "Completá todos los campos" });
+      return;
+    }
+
+    if(this.state.password.length<6){
+      this.setState({error: "La contraseña debe tener un mínimo de 6 caracteres"})
       return;
     }
 
@@ -40,7 +41,8 @@ class FormRegistro extends Component {
 
     if (usuariosGuardados === null) {
       usuarios = [];
-    } else {
+    } 
+    else {
       usuarios = JSON.parse(usuariosGuardados);
     }
 
