@@ -1,6 +1,7 @@
 import React from "react";
-
 import LiNavbar from "../LiNavbar/LiNavbar";
+import Cookies from "universal-cookie";
+const cookie = new Cookies()
 
 function Navbar() {
     let menu = [
@@ -15,7 +16,7 @@ function Navbar() {
         { name: "Login", path: "/Login", clase: "Login" }
     ];
 
-    let usuario = sessionStorage.getItem("usuarioLogueado");
+    let usuario = cookie.get("user-auth-cookie");
 
     return (
         <nav>
