@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Tarjetaspeliculas from "../TarjetaPelicula/TarjetaPelicula";
+import TarjetaPeliculas from "../TarjetaPelicula/TarjetaPelicula";
 
-class SeccionPopulares extends Component {
+class SeccionHome extends Component {
     constructor(props) {
-        super(props);
+        super();
         this.state = {
             datos: "",
         }
@@ -12,7 +12,7 @@ class SeccionPopulares extends Component {
     }
 
     componentDidMount() {
-        fetch("https://api.themoviedb.org/3/movie/popular?api_key=e25593014aaf22d2e4b4abad5da519dd")
+        fetch("https://api.themoviedb.org/3/movie/" + this.props.tipo + "?api_key=e25593014aaf22d2e4b4abad5da519dd")
             .then(response => response.json())
             .then(data =>
                 this.setState({
@@ -29,15 +29,17 @@ class SeccionPopulares extends Component {
                     <>
                         <section className="seccionTarjetas">
                             {this.state.datos.results.filter((pelis, idx) => 8 > idx).map((pelis, idx) => (
-                                <Tarjetaspeliculas key={idx} img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`} name={pelis.title} desc={pelis.overview} id={pelis.id} />
+                                <TarjetaPeliculas key={idx} tipo="movie" img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`} name={pelis.title} desc={pelis.overview} id={pelis.id} />
                             ))}
                         </section>
 
-                        <Link to="/Populares" className='botonVerTodas'>
-                            Ver populares
+                        <Link to={this.props.path} className='botonVerTodas'>
+                            {this.props.tipo === "top_rated" ? "Top Rated" : ""}
+                            {this.props.tipo === "popular" ? "Ver Populares" : ""}
+                            {this.props.tipo === "upcoming" ? "Ver estrenos" : ""}
                         </Link>
 
-                       
+
 
                     </>
                 }
@@ -47,4 +49,4 @@ class SeccionPopulares extends Component {
     }
 }
 
-export default SeccionPopulares
+export default SeccionHome

@@ -54,7 +54,7 @@ class SeccionPronto extends Component {
     }
 
     render() {
-        
+
         return (
             <>
                 {this.state.datos === "" ? (
@@ -85,7 +85,7 @@ class SeccionPronto extends Component {
                                 Cargar más
                             </button>
                         ) : null}
-                        
+
                     </>
                 )}
             </>

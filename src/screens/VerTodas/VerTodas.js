@@ -49,36 +49,37 @@ class Peliculas extends Component {
         let peliculasFiltradas = this.state.resultados;
 
         return (
-        this.state.resultados === "" ? (
-            <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
-    ) : (
-            <>
-                <FormBusqueda />
+            this.state.resultados === "" ? (
+                <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
+            ) : (
+                <>
+                    <FormBusqueda />
 
-                <h2 className="subtituloHome">Ver Todas</h2>
+                    <h2 className="subtituloHome">Ver Todas</h2>
 
 
-                <section className="seccionTarjetas">
-                    {peliculasFiltradas.length > 0 ? (
-                        peliculasFiltradas.map((pelis, idx) => (
-                            <TarjetaPelicula
-                                key={idx}
-                                img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`}
-                                name={pelis.title}
-                                desc={pelis.overview}
-                                id={pelis.id}
-                            />
-                        ))
-                    ) : (
-                        <p>No se encontraron resultados.</p>
-                    )}
-                </section>
+                    <section className="seccionTarjetas">
+                        {peliculasFiltradas.length > 0 ? (
+                            peliculasFiltradas.map((pelis, idx) => (
+                                <TarjetaPelicula
+                                    key={idx}
+                                    img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`}
+                                    name={pelis.title}
+                                    desc={pelis.overview}
+                                    id={pelis.id}
+                                    tipo={pelis.tipo}
+                                />
+                            ))
+                        ) : (
+                            <p>No se encontraron resultados.</p>
+                        )}
+                    </section>
 
-                <button className="botonVerTodas" onClick={() => this.cargarMas()}>
-                    Cargar más
-                </button>
-            </>
-    )
+                    <button className="botonVerTodas" onClick={() => this.cargarMas()}>
+                        Cargar más
+                    </button>
+                </>
+            )
         );
     }
 }

@@ -25,7 +25,7 @@ function Navbar() {
             </ul>
 
             <ul>
-                {usuario === null? (
+                {usuario === undefined ? (
                     <LiNavbar name={lr} />
                 ) : (
                     <li className="usuarioLogueado">
