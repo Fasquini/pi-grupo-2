@@ -45,7 +45,7 @@ class Resultados extends Component {
                                     name={pelis.title || pelis.name}
                                     desc={pelis.overview}
                                     id={pelis.id}
-                                    tipo={this.props.match.params.tipo}
+                                    tipo={this.props.match.params.tipo === 'tv' ? 'tv' : 'movie'}
                                 />
                             ))
                         )}

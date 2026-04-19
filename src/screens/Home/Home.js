@@ -16,12 +16,12 @@ function Home() {
                 <SeccionHome tipo="popular" path="/Populares" />
                 <h2 className="subtituloHome">Pronto en ARN Max</h2>
                 <SeccionHome tipo="upcoming" path="/Pronto" />
-                <article className = "botones"> 
+                <article className="botones">
 
-     <Link to="/VerTodas" className='botonVerTodasLasPelis'>
-                            Ver Todas Las Peliculas / Series
-                            </Link>
-</article>
+                    <Link to="/VerTodas" className='botonVerTodasLasPelis'>
+                        Ver Todas Las Peliculas
+                    </Link>
+                </article>
             </main>
         </>
     )

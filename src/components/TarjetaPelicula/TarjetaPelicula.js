@@ -93,15 +93,19 @@ class TarjetaPelicula extends Component {
                     </li>
                 </ul>
 
-                {this.state.esFavorito ? (
-                    <Link to="/Favoritas">
-                        <button className='botonFavCorazon'>❤️</button>
-                    </Link>
-                ) : (
-                    <button className='botonFav' onClick={() => this.agregarFavorito()}>
-                        Agregar a favoritos
-                    </button>
-                )}
+                {cookies.get("user-auth-cookie") === undefined ? "" : (
+
+                    this.state.esFavorito ? (
+                        <Link to="/Favoritas">
+                            <button className='botonFavCorazon'>❤️</button>
+                        </Link>
+                    ) : (
+                        <button className='botonFav' onClick={() => this.agregarFavorito()}>
+                            Agregar a favoritos
+                        </button>
+                    ))
+
+                }
             </article>
         )
     }

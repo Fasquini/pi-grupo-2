@@ -129,6 +129,8 @@ class UnaPelicula extends Component {
                                                     : "Sin datos"
                                             }
                                         </p>
+
+                                        {cookies.get("user-auth-cookie") === undefined ? "" : (
                                         <ul className="favoritoDetalle">
                                             <li>
                                                 <button
@@ -145,6 +147,7 @@ class UnaPelicula extends Component {
                                                 </button>
                                             </li>
                                         </ul>
+                                        )}
                                     </div>
                                 </div>
                             </div>

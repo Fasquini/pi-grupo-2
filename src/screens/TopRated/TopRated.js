@@ -71,7 +71,7 @@ class TopRated extends Component {
                         <h2 className="subtituloHome">Top Rated</h2>
 
                         <section className="seccionTarjetas">
-                            {(this.filtrarPelis(this.state.valor).length === 0) ? (<p>No se encontraron resultados para: "{this.state.valor}"</p>) :
+                            {(this.filtrarPelis(this.state.valor).length === 0) ? (<p>No se encontraron resultados</p>) :
 
                                 (this.filtrarPelis(this.state.valor).map((pelis, idx) => (
                                     <TarjetaPeliculas

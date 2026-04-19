@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import TarjetaPelicula from "../../components/TarjetaPelicula/TarjetaPelicula";
-import FormBusqueda from "../../components/FormBusqueda/FormBusqueda";
 import Header from "../../components/Header/Header";
 
 class Peliculas extends Component {
@@ -8,7 +7,8 @@ class Peliculas extends Component {
         super(props);
         this.state = {
             resultados: [],
-            pagina: 1
+            pagina: 1,
+            valor: ""
         };
     }
 
@@ -24,11 +24,18 @@ class Peliculas extends Component {
             .catch(error => console.log(error));
     }
 
-    controlarInput = (evento) => {
-        this.setState({
-            busqueda: evento.target.value
-        });
-    };
+    evitarSubmit(event) {
+        event.preventDefault()
+    }
+
+    controlarCambios(event) {
+        this.setState({ valor: event.target.value })
+    }
+
+    filtrarPelis(textoAFiltrar) {
+        let filtrados = this.state.resultados.filter((pelis) => pelis.title.toLowerCase().includes(textoAFiltrar.toLowerCase()))
+        return filtrados
+    }
 
     cargarMas() {
         let numeroPagina = this.state.pagina + 1;
@@ -47,7 +54,6 @@ class Peliculas extends Component {
     }
 
     render() {
-        let peliculasFiltradas = this.state.resultados;
 
         return (
             this.state.resultados === "" ? (
@@ -55,14 +61,17 @@ class Peliculas extends Component {
             ) : (
                 <>
                     <Header />
-                    <FormBusqueda />
+                    <form onSubmit={(event) => this.evitarSubmit(event)}>
+                        <input type="text" className="inputBuscar Filtro" placeholder="Buscar..." onChange={(event) => this.controlarCambios(event)} value={this.state.valor} />
+                    </form>
 
                     <h2 className="subtituloHome">Ver Todas</h2>
 
 
                     <section className="seccionTarjetas">
-                        {peliculasFiltradas.length > 0 ? (
-                            peliculasFiltradas.map((pelis, idx) => (
+                        {(this.filtrarPelis(this.state.valor).length === 0) ? (<p>No se encontraron resultados</p>) :
+
+                            (this.filtrarPelis(this.state.valor).map((pelis, idx) => (
                                 <TarjetaPelicula
                                     key={idx}
                                     img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`}
@@ -71,15 +80,14 @@ class Peliculas extends Component {
                                     id={pelis.id}
                                     tipo={pelis.tipo}
                                 />
-                            ))
-                        ) : (
-                            <p>No se encontraron resultados.</p>
-                        )}
-                    </section>
+                            )))}
 
-                    <button className="botonVerTodas" onClick={() => this.cargarMas()}>
-                        Cargar más
-                    </button>
+                    </section>
+                    {this.state.valor === "" ? (
+                        <button className="botonVerTodas" onClick={() => this.cargarMas()}>
+                            Cargar más
+                        </button>
+                    ) : null}
                 </>
             )
         );
