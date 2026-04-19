@@ -1,15 +1,23 @@
 import React from "react";
-import LiNavbar from "../LiNavbar/LiNavbar";
 import Cookies from "universal-cookie";
+import LiNavbar from "../LiNavbar/LiNavbar";
 const cookie = new Cookies()
 
 function Navbar() {
-    let menu = [
+    let menu = cookie.get("user-auth-cookie") !== undefined ? [
+        { name: "Home", path: "/", clase: "" },
+        { name: "Populares", path: "/Populares", clase: "" },
+        { name: "Top Rated", path: "/TopRated", clase: "" },
+        { name: "Pronto", path: "/Pronto", clase: "" },
+        { name: "Favoritos", path: "/Favoritas", clase: "" } 
+    ]
+    : [
         { name: "Home", path: "/", clase: "" },
         { name: "Populares", path: "/Populares", clase: "" },
         { name: "Top Rated", path: "/TopRated", clase: "" },
         { name: "Pronto", path: "/Pronto", clase: "" }
-    ];
+    ]
+    
 
     let lr = [
         { name: "Registro", path: "/Registro", clase: "Registro" },

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TarjetaPelicula from "../../components/TarjetaPelicula/TarjetaPelicula";
+import Header from "../../components/Header/Header";
 
 class Resultados extends Component {
     constructor(props) {
@@ -28,6 +29,7 @@ class Resultados extends Component {
                 <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
             ) : (
                 <>
+                    <Header />
 
                     <h2 className="subtituloHome">
                         Resultados para: "{this.props.match.params.busqueda}"
@@ -55,4 +57,3 @@ class Resultados extends Component {
 }
 
 export default Resultados;
-

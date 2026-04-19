@@ -1,29 +1,76 @@
 import React, { Component } from "react"
+import Cookies from "universal-cookie";
+import Header from "../../components/Header/Header";
+const cookies = new Cookies()
 
 class UnaPelicula extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            pelicula: ""
+            pelicula: "",
+            esFavorito: false
         }
     }
 
     componentDidMount() {
         let id = this.props.match.params.id
+        let tipo = this.props.match.params.tipo
 
-        fetch(`https://api.themoviedb.org/3/${this.props.match.params.tipo}/${id}?api_key=81dded2ba544d830e45caeb888ae898e&`)
+        fetch(`https://api.themoviedb.org/3/${tipo}/${id}?api_key=81dded2ba544d830e45caeb888ae898e&`)
             .then(response => response.json())
             .then(data => {
+
+                let favoritos = cookies.get('favoritos')
+
+                if (favoritos === undefined) {
+                    favoritos = []
+                }
+
+                let filtrados = favoritos.filter(fav => fav.id === data.id && fav.tipo === tipo)
+
                 this.setState({
-                    pelicula: data
+                    pelicula: data,
+                    esFavorito: filtrados.length > 0
                 })
             })
             .catch(error => console.log(error))
     }
 
+    agregarFavorito() {
+        let sesion = cookies.get('user-auth-cookie')
+
+        if (sesion === undefined) {
+            return
+        }
+
+        let favoritos = cookies.get('favoritos')
+
+        if (favoritos === undefined) {
+            favoritos = []
+        }
+
+        let filtrados = favoritos.filter(fav => fav.id === this.state.pelicula.id && fav.tipo === this.props.match.params.tipo)
+
+        if (filtrados.length === 0) {
+            let obj = {
+                id: this.state.pelicula.id,
+                name: this.state.pelicula.title !== undefined ? this.state.pelicula.title : this.state.pelicula.name,
+                img: `https://image.tmdb.org/t/p/w500${this.state.pelicula.poster_path}`,
+                desc: this.state.pelicula.overview,
+                tipo: this.props.match.params.tipo
+            }
+
+            favoritos.push(obj)
+            cookies.set('favoritos', favoritos, { path: '/' })
+
+            this.setState({ esFavorito: true })
+        }
+    }
+
     render() {
         return (
             <div className="detalle-pelicula-container">
+                <Header />
                 {
                     this.state.pelicula === ""
                         ? <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
@@ -59,8 +106,11 @@ class UnaPelicula extends Component {
                                             }
                                         </p>
 
-                                        <p className="detalle-pelicula-texto"><strong>Fecha de estreno:</strong> {this.state.pelicula.release_date}</p>
-                                        {<p className="detalle-pelicula-texto"><strong>Duración:</strong> {this.state.pelicula.runtime !== undefined ? this.state.pelicula.runtime : this.state.pelicula.episode_run_time}</p>}
+                                        <p className="detalle-pelicula-texto"><strong>Fecha de estreno:</strong> {this.state.pelicula.release_date !== undefined ? this.state.pelicula.release_date : this.state.pelicula.first_air_date}</p>
+
+                                        {this.props.match.params.tipo === "movie" ? (
+                                            <p className="detalle-pelicula-texto"><strong>Duración:</strong> {this.state.pelicula.runtime} min</p>
+                                        ) : ""}
 
                                         <p className="detalle-pelicula-texto"><strong>Puntuación:</strong> {this.state.pelicula.vote_average}</p>
                                         <p className="detalle-pelicula-texto">
@@ -80,6 +130,15 @@ class UnaPelicula extends Component {
                                         </p>
                                     </div>
                                 </div>
+                                {cookies.get('user-auth-cookie') !== undefined ? (
+                                    <ul>
+                                        <li>
+                                            <button className="botonFav" onClick={() => this.agregarFavorito()}>
+                                                {this.state.esFavorito ? "En favoritos" : "Agregar a favoritos"}
+                                            </button>
+                                        </li>
+                                    </ul>
+                                ) : null}
                             </div>
                         )
                         : null

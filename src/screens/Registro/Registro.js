@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
+import Header from "../../components/Header/Header";
 
 class FormRegistro extends Component {
   constructor(props) {
@@ -79,6 +80,7 @@ class FormRegistro extends Component {
   render() {
     return (
       <section>
+        <Header />
         <form className="usuario" onSubmit={(e) => this.crearCuenta(e)}>
           <h2>¡Bienvenido! Creá tu cuenta</h2>
 

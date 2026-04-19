@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TarjetaPelicula from "../../components/TarjetaPelicula/TarjetaPelicula";
 import FormBusqueda from "../../components/FormBusqueda/FormBusqueda";
+import Header from "../../components/Header/Header";
 
 class Peliculas extends Component {
     constructor(props) {
@@ -53,6 +54,7 @@ class Peliculas extends Component {
                 <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
             ) : (
                 <>
+                    <Header />
                     <FormBusqueda />
 
                     <h2 className="subtituloHome">Ver Todas</h2>

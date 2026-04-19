@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import Cookies from "universal-cookie";
+import Header from "../../components/Header/Header";
 const cookie = new Cookies()
 
 class Login extends Component {
@@ -70,6 +71,7 @@ class Login extends Component {
   render() {
     return (
       <section>
+        <Header />
         <form className="usuario" onSubmit={(e) => this.iniciarSesion(e)}>
           <h2>¡Bienvenido! Ingresá tu cuenta</h2>
 

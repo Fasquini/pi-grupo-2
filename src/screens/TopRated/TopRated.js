@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TarjetaPeliculas from "../../components/TarjetaPelicula/TarjetaPelicula";
+import Header from "../../components/Header/Header";
 
 class TopRated extends Component {
     constructor(props) {
@@ -62,6 +63,7 @@ class TopRated extends Component {
                     <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
                 ) : (
                     <>
+                        <Header />
                         <form onSubmit={(event) => this.evitarSubmit(event)}>
                             <input type="text" className="inputBuscar Filtro" placeholder="Buscar..." onChange={(event) => this.controlarCambios(event)} value={this.state.valor} />
                         </form>
@@ -83,7 +85,7 @@ class TopRated extends Component {
                                 )))}
 
                         </section>
-                        {this.filtrarPelis(this.state.valor).length > 0 ? (
+                        {this.state.valor === "" ? (
                             <button className="botonVerTodas" onClick={this.cargarMas}>
                                 Cargar más
                             </button>
