@@ -780,4 +780,24 @@ footer{
         text-align: center;
     }
 
+    .selectBuscar{
+        width: 70%;
+        padding: 10px;
+        font-size: 15px;
+        border-radius: 10px;
+        margin: 0 0 10px 0;
+        display: block;
+    }
+
+.Filtro{
+    width: 100%;
+    display: block;
+}
+
+.formBuscar{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
 }

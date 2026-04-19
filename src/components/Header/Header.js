@@ -8,7 +8,7 @@ function Header() {
         <>
             <div id="divTitulo">
                 <Link to="/">
-                    <img id="logo" src="../img/ARNMAX_7.png" alt="logo"/>
+                    <img id="logo" src="/img/ARNMAX_7.png" alt="logo"/>
                 </Link>
             </div>
             
