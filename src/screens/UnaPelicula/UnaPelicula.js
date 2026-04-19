@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { withRouter } from "react-router-dom";
 import Cookies from "universal-cookie";
 import Header from "../../components/Header/Header";
 const cookies = new Cookies()
@@ -40,6 +41,7 @@ class UnaPelicula extends Component {
         let sesion = cookies.get('user-auth-cookie')
 
         if (sesion === undefined) {
+            this.props.history.push("/Registro")
             return
         }
 
@@ -112,7 +114,6 @@ class UnaPelicula extends Component {
                                             <p className="detalle-pelicula-texto"><strong>Duración:</strong> {this.state.pelicula.runtime} min</p>
                                         ) : ""}
 
-                                        <p className="detalle-pelicula-texto"><strong>Puntuación:</strong> {this.state.pelicula.vote_average}</p>
                                         <p className="detalle-pelicula-texto">
                                             <strong>{
                                                 this.state.pelicula.genres && this.state.pelicula.genres.length === 1
@@ -128,17 +129,24 @@ class UnaPelicula extends Component {
                                                     : "Sin datos"
                                             }
                                         </p>
+                                        <ul className="favoritoDetalle">
+                                            <li>
+                                                <button
+                                                    className={this.state.esFavorito ? "botonFavCorazon" : "botonFav"}
+                                                    onClick={() => {
+                                                        if (this.state.esFavorito) {
+                                                            this.props.history.push("/Favoritas")
+                                                        } else {
+                                                            this.agregarFavorito()
+                                                        }
+                                                    }}
+                                                >
+                                                    {this.state.esFavorito ? "❤️" : "Agregar a favoritos"}
+                                                </button>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                                {cookies.get('user-auth-cookie') !== undefined ? (
-                                    <ul>
-                                        <li>
-                                            <button className="botonFav" onClick={() => this.agregarFavorito()}>
-                                                {this.state.esFavorito ? "En favoritos" : "Agregar a favoritos"}
-                                            </button>
-                                        </li>
-                                    </ul>
-                                ) : null}
                             </div>
                         )
                         : null
@@ -148,4 +156,4 @@ class UnaPelicula extends Component {
     }
 }
 
-export default UnaPelicula
+export default withRouter(UnaPelicula)

@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import Cookies from "universal-cookie";
 const cookies = new Cookies()
 
@@ -37,6 +37,11 @@ class TarjetaPelicula extends Component {
     }
 
     agregarFavorito() {
+        if (cookies.get("user-auth-cookie") === undefined) {
+            this.props.history.push("/Registro")
+            return
+        }
+
         let favoritos = cookies.get('favoritos')
 
         if (favoritos === undefined) {
@@ -88,20 +93,18 @@ class TarjetaPelicula extends Component {
                     </li>
                 </ul>
 
-                {cookies.get("user-auth-cookie") !== undefined ? (
-                    this.state.esFavorito ? (
-                        <Link to="/Favoritas">
-                            <button className='botonFav'>En favoritos</button>
-                        </Link>
-                    ) : (
-                        <button className='botonFav' onClick={() => this.agregarFavorito()}>
-                            Agregar a favoritos
-                        </button>
-                    )
-                ) : ""}
+                {this.state.esFavorito ? (
+                    <Link to="/Favoritas">
+                        <button className='botonFavCorazon'>❤️</button>
+                    </Link>
+                ) : (
+                    <button className='botonFav' onClick={() => this.agregarFavorito()}>
+                        Agregar a favoritos
+                    </button>
+                )}
             </article>
         )
     }
 }
 
-export default TarjetaPelicula
+export default withRouter(TarjetaPelicula)

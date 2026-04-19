@@ -62,7 +62,7 @@ class Favoritas extends Component {
             <>
                 <Header />
                 <h2 className="subtituloHome">Películas favoritas</h2>
-                <section className="seccionTarjetas">
+                <section className="seccionTarjetasFav">
                     {this.state.peliculas.length === 0 ? (
                         <p className="FavoritasVacio">No hay películas favoritas</p>
                     ) : (

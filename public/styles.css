@@ -147,6 +147,22 @@ img.fotoDePerfil{
     color: white;
 }
 
+.seccionTarjetas.favoritas,
+.seccionTarjetasFav,
+.SeccionTarjetasFav{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    color: white;
+}
+
+.seccionTarjetas.favoritas .tarjetaPeli,
+.seccionTarjetasFav .tarjetaPeli,
+.SeccionTarjetasFav .tarjetaPeli{
+    width: 24%;
+    margin: 20px 20px 20px 0;
+}
+
 h3{
     font-weight: bold;
 }
@@ -249,6 +265,23 @@ h3{
     border-radius: 6px;
     padding: 5px 10px;
     margin-top: 0;
+}
+
+.botonFavCorazon{
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 32px;
+    line-height: 1;
+}
+
+.favoritoDetalle{
+    margin-top: 40px;
+    padding-left: 0;
+}
+
+.favoritoDetalle li{
+    list-style: none;
 }
 
 .tarjetaPeli .botonMas {
@@ -457,6 +490,20 @@ footer{
         align-items: center;
     }
 
+    .seccionTarjetas.favoritas,
+    .seccionTarjetasFav,
+    .SeccionTarjetasFav{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .seccionTarjetas.favoritas .tarjetaPeli,
+    .seccionTarjetasFav .tarjetaPeli,
+    .SeccionTarjetasFav .tarjetaPeli{
+        width: 100%;
+        margin: 15px 0;
+    }
+
     .tarjetaPeli{
         width: 100%;
         margin: 15px 0;
@@ -494,6 +541,17 @@ footer{
         font-size: 16px;
         padding: 12px 14px;
         border-radius: 14px;
+    }
+
+    .seccionTarjetasFav .botonFav,
+    .SeccionTarjetasFav .botonFav{
+        background: white;
+        color: black;
+        border: none;
+        border-radius: 14px;
+        width: 100%;
+        margin: 10px 0;
+        padding: 12px 14px;
     }
 
     .botonVerTodas a{
@@ -667,6 +725,21 @@ footer{
         align-items: center;
     }
 
+    .seccionTarjetas.favoritas,
+    .seccionTarjetasFav,
+    .SeccionTarjetasFav{
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .seccionTarjetas.favoritas .tarjetaPeli,
+    .seccionTarjetasFav .tarjetaPeli,
+    .SeccionTarjetasFav .tarjetaPeli{
+        width: 48%;
+        margin-right: 10px;
+    }
+
     .tarjetaPeli{
         width: 100%;
         margin: 15px 0;
@@ -800,4 +873,33 @@ footer{
     align-items: stretch;
 }
 
+}
+
+@media (max-width: 480px) {
+    .seccionTarjetas.favoritas,
+    .seccionTarjetasFav,
+    .SeccionTarjetasFav{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .seccionTarjetas.favoritas .tarjetaPeli,
+    .seccionTarjetasFav .tarjetaPeli,
+    .SeccionTarjetasFav .tarjetaPeli{
+        width: 100%;
+        margin: 15px 0;
+    }
+
+    .seccionTarjetasFav .botonFav,
+    .SeccionTarjetasFav .botonFav{
+        background: white;
+        color: black;
+        border: none;
+        border-radius: 14px;
+        width: 100%;
+        margin: 10px 0;
+        padding: 12px 14px;
+        font-size: 16px;
+    }
 }
