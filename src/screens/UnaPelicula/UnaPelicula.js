@@ -134,7 +134,7 @@ class UnaPelicula extends Component {
                                         <ul className="favoritoDetalle">
                                             <li>
                                                 <button
-                                                    className={this.state.esFavorito ? "botonFavCorazon" : "botonFav"}
+                                                    className={this.state.esFavorito ? "botonFav agregado" : "botonFav"}
                                                     onClick={() => {
                                                         if (this.state.esFavorito) {
                                                             this.props.history.push("/Favoritas")
@@ -143,7 +143,8 @@ class UnaPelicula extends Component {
                                                         }
                                                     }}
                                                 >
-                                                    {this.state.esFavorito ? "❤️" : "Agregar a favoritos"}
+                                                    {this.state.esFavorito ? <><p>Agregado a favoritos</p>
+                                                <img src="https://img.icons8.com/?size=100&id=82769&format=png&color=209DAD" className="agregarFav" /></>: "Agregar a favoritos"}
                                                 </button>
                                             </li>
                                         </ul>
