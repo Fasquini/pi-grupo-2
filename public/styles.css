@@ -81,11 +81,20 @@ nav ul li {
     margin-right: 15px; 
     color: #000;
 }
+img.logOut{
+    width: 40px;
+    margin-left: 10px;
+    padding-left: 10px;
+    border-left: solid 2px black;
+}
 img.fotoDePerfil{
-    width: 80px;
+    width: 35px;
+    margin-left: 8px;
 }
 .usuarioLogueado p{
-    font-size: 15px;
+    font-size: 18px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 600;
 }
 .usuarioLogueado{
     display: flex;
@@ -102,14 +111,15 @@ img.fotoDePerfil{
 }
 
 .selectBuscar, .botonBuscar{
-    width: 12%;
+    width: 14%;
     border: none;
     color: #fff;    
-    padding: 8px 0;
+    padding: 8px 8px;
     border-radius: 8px;
     background: white;
     color: black;
     border-radius: 8px;
+    cursor: pointer;
     
 }
 
@@ -117,7 +127,7 @@ img.fotoDePerfil{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 0 10px;
+    padding: 0 ;
     margin: 20px 0;
 }
 
@@ -166,7 +176,6 @@ img.fotoDePerfil{
 h3{
     font-weight: bold;
 }
-
 .tarjetaPeli{
     width: 24%;
     margin: 20px 0;
@@ -251,6 +260,31 @@ h3{
 .botonVerTodas a{
     color: white;
 }
+.borrarFav{
+    width: 70%;
+    color: #004085;
+    background-color: #8f1313;
+    border-color: #cce5ff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: 400;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    color: black;
+      border: none;
+    border-radius: 6px;
+    padding: 3px 10px;
+    margin-top: 0;
+    margin-right: 5px;
+}
+.borrarFav p{
+    color: white;
+}
+img.basura{
+    width: 22px;
+}
 .botonFav{
     color: #004085;
     background: white;
@@ -265,6 +299,38 @@ h3{
     border-radius: 6px;
     padding: 5px 10px;
     margin-top: 0;
+}
+.gif {
+    width: 35px;
+    margin-left: 10px;
+}
+.agregarFav{
+    width: 25px;
+    margin-left: 10px;
+}
+.agregado p{
+    color: white;
+    margin: 0;
+}
+.agregado{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    color: #004085;
+    background: none;
+    border-color: #cce5ff;
+    font-weight: 400;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    color: black;
+      border: none;
+    border-radius: 6px;
+    margin-top: 0;
+    margin-left: 0;
+    padding-left: 0;
+    padding-top: 0;
 }
 
 .botonFavCorazon{
@@ -533,13 +599,20 @@ footer{
 
     .botonMas,
     .botonVerTodas,
-    .botonVerTodasLasPelis,
-    .botonFav{
+    .botonVerTodasLasPelis{
         width: 100%;
         margin: 8px 0;
         text-align: center;
         font-size: 16px;
         padding: 12px 14px;
+        border-radius: 14px;
+    }
+    .botonFav.agregado{
+        width: 100%;
+        margin: 0;
+        text-align: center;
+        font-size: 16px;
+        padding: 0;
         border-radius: 14px;
     }
 
@@ -645,6 +718,7 @@ footer{
         justify-content: center;
         align-items: center;
         padding-left: 0;
+        margin: 0;
     }
 
     nav ul li{
@@ -656,6 +730,7 @@ footer{
         display: inline-block;
         padding: 8px 0;
     }
+    
 
     #divTitulo{
         width: 100%;
@@ -673,14 +748,31 @@ footer{
         margin: 6px 0 14px 0;
     }
 
-    .usuarioLogueado{
-        flex-direction: column;
+   .usuarioLogueado{
+        flex-direction: row-reverse;
         align-items: center;
         text-align: center;
+        margin-top: 10px;
+    }
+
+    .usuarioLogueado p{
+        font-size: 16px;
+        margin: 8px 0 8px 0;
+        
     }
 
     img.fotoDePerfil{
-        width: 60px;
+        width: 30px;
+        margin: 0;
+        margin-right: 50px;
+    }
+
+    img.logOut{
+        width: 28px;
+        margin: 10px 0 8px 0;
+        padding: 0;
+        border-left: none;
+        
     }
 
     .formBuscar{
@@ -854,7 +946,7 @@ footer{
     }
 
     .selectBuscar{
-        width: 70%;
+        width: 100%;
         padding: 10px;
         font-size: 15px;
         border-radius: 10px;
@@ -873,9 +965,7 @@ footer{
     align-items: stretch;
 }
 
-}
 
-@media (max-width: 480px) {
     .seccionTarjetas.favoritas,
     .seccionTarjetasFav,
     .SeccionTarjetasFav{

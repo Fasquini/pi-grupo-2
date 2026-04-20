@@ -89,8 +89,8 @@ class Favoritas extends Component {
                                     </li>
                                 </ul>
 
-                                <button className='botonFav' onClick={() => this.borrarFavorito(unaPelicula.id, unaPelicula.tipo)}>
-                                    Eliminar de favoritos
+                                <button className='borrarFav' onClick={() => this.borrarFavorito(unaPelicula.id, unaPelicula.tipo)}>
+                                 <p>Eliminar de favoritos</p><img src="https://img.icons8.com/?size=100&id=99933&format=png&color=FFFFFF" className="basura"/>
                                 </button>
                             </article>
                         ))
@@ -125,8 +125,8 @@ class Favoritas extends Component {
                                     </li>
                                 </ul>
 
-                                <button className='botonFav' onClick={() => this.borrarFavorito(unaSerie.id, unaSerie.tipo)}>
-                                    Eliminar de favoritos
+                                <button className='borrarFav' onClick={() => this.borrarFavorito(unaSerie.id, unaSerie.tipo)}>
+                                <p>Eliminar de favoritos</p><img src="https://img.icons8.com/?size=100&id=99933&format=png&color=CC0A0A" className="basura"/>
                                 </button>
                             </article>
                         ))

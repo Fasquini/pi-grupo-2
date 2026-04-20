@@ -67,6 +67,7 @@ class TarjetaPelicula extends Component {
 
             this.setState({ esFavorito: true })
         }
+        
     }
 
     render() {
@@ -97,7 +98,10 @@ class TarjetaPelicula extends Component {
 
                     this.state.esFavorito ? (
                         <Link to="/Favoritas">
-                            <button className='botonFavCorazon'>❤️</button>
+                            <button className='botonFav agregado'>
+                            <p>Agregado a favoritos</p>
+                            <img src="https://img.icons8.com/?size=100&id=82769&format=png&color=209DAD" className="agregarFav" />
+                        </button>
                         </Link>
                     ) : (
                         <button className='botonFav' onClick={() => this.agregarFavorito()}>

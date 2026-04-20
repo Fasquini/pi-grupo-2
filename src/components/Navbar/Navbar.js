@@ -26,6 +26,8 @@ function Navbar() {
 
     let usuario = cookie.get("user-auth-cookie");
 
+    let logOut = ()=>{cookie.remove("user-auth-cookie")}
+
     return (
         <nav>
             <ul className="">
@@ -37,7 +39,8 @@ function Navbar() {
                     <LiNavbar name={lr} />
                 ) : (
                     <li className="usuarioLogueado">
-                        <img src="/img/fotoDePerfil.png" className="fotoDePerfil" alt="foto de perfil"/>
+                        <img src="https://img.icons8.com/?size=100&id=82792&format=png&color=CC0A0A" onClick={logOut} className="logOut" alt="foto de perfil"/>
+                        <img src="https://img.icons8.com/?size=100&id=85050&format=png&color=000000" className="fotoDePerfil" alt="foto de perfil"/>
                         <p>{usuario}</p>
                     </li>
                 )}
