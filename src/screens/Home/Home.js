@@ -19,7 +19,7 @@ function Home() {
                 <article className="botones">
 
                     <Link to="/VerTodas" className='botonVerTodasLasPelis'>
-                        Ver Todas Las Peliculas
+                        Ver Todas Las Peliculas / Series
                     </Link>
                 </article>
             </main>

@@ -80,7 +80,7 @@ class TopRated extends Component {
                                         name={pelis.title}
                                         desc={pelis.overview}
                                         id={pelis.id}
-                                        tipo={pelis.tipo}
+                                        tipo= "movie"
                                     />
                                 )))}
 

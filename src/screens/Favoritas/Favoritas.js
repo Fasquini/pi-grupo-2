@@ -1,9 +1,6 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
-import Cookies from "universal-cookie"
 import Header from "../../components/Header/Header";
-
-const cookies = new Cookies()
 
 class Favoritas extends Component {
     constructor(props) {
@@ -16,9 +13,9 @@ class Favoritas extends Component {
     }
 
     componentDidMount() {
-        let favoritos = cookies.get('favoritos')
+        let favoritos = JSON.parse(localStorage.getItem('favoritos'))
 
-        if (favoritos === undefined) {
+        if (!favoritos) {
             favoritos = []
         }
 
@@ -32,15 +29,15 @@ class Favoritas extends Component {
     }
 
     borrarFavorito(id, tipo) {
-        let favoritos = cookies.get('favoritos')
+        let favoritos = JSON.parse(localStorage.getItem('favoritos'))
 
-        if (favoritos === undefined) {
+        if (!favoritos) {
             favoritos = []
         }
 
         let filtrados = favoritos.filter(unFav => !(unFav.id === id && unFav.tipo === tipo))
 
-        cookies.set('favoritos', filtrados, { path: '/' })
+        localStorage.setItem('favoritos', JSON.stringify(filtrados))
 
         let peliculas = filtrados.filter(unFav => unFav.tipo === 'movie')
         let series = filtrados.filter(unFav => unFav.tipo === 'tv')
@@ -62,7 +59,7 @@ class Favoritas extends Component {
             <>
                 <Header />
                 <h2 className="subtituloHome">Películas favoritas</h2>
-                <section className="seccionTarjetasFav">
+                <section className="seccionTarjetas">
                     {this.state.peliculas.length === 0 ? (
                         <p className="FavoritasVacio">No hay películas favoritas</p>
                     ) : (

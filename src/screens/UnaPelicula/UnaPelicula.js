@@ -21,9 +21,9 @@ class UnaPelicula extends Component {
             .then(response => response.json())
             .then(data => {
 
-                let favoritos = cookies.get('favoritos')
+                let favoritos = JSON.parse(localStorage.getItem('favoritos'))
 
-                if (favoritos === undefined) {
+                if (!favoritos) {
                     favoritos = []
                 }
 
@@ -45,9 +45,9 @@ class UnaPelicula extends Component {
             return
         }
 
-        let favoritos = cookies.get('favoritos')
+        let favoritos = JSON.parse(localStorage.getItem('favoritos'))
 
-        if (favoritos === undefined) {
+        if (!favoritos) {
             favoritos = []
         }
 
@@ -63,7 +63,7 @@ class UnaPelicula extends Component {
             }
 
             favoritos.push(obj)
-            cookies.set('favoritos', favoritos, { path: '/' })
+            localStorage.setItem('favoritos', JSON.stringify(favoritos))
 
             this.setState({ esFavorito: true })
         }

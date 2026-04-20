@@ -14,9 +14,9 @@ class TarjetaPelicula extends Component {
     }
 
     componentDidMount() {
-        let favoritos = cookies.get('favoritos')
+        let favoritos = JSON.parse(localStorage.getItem('favoritos'))
 
-        if (favoritos === undefined) {
+        if (!favoritos) {
             favoritos = []
         }
 
@@ -42,9 +42,9 @@ class TarjetaPelicula extends Component {
             return
         }
 
-        let favoritos = cookies.get('favoritos')
+        let favoritos = JSON.parse(localStorage.getItem('favoritos'))
 
-        if (favoritos === undefined) {
+        if (!favoritos) {
             favoritos = []
         }
 
@@ -56,14 +56,11 @@ class TarjetaPelicula extends Component {
         if (filtrados.length === 0) {
             let obj = {
                 id: this.props.id,
-                name: this.props.name,
-                img: this.props.img,
-                desc: this.props.desc,
                 tipo: this.props.tipo
             }
 
             favoritos.push(obj)
-            cookies.set('favoritos', favoritos, { path: '/' })
+            localStorage.setItem('favoritos', JSON.stringify(favoritos))
 
             this.setState({ esFavorito: true })
         }

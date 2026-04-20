@@ -79,6 +79,7 @@ class SeccionPronto extends Component {
                                         name={pelis.title}
                                         desc={pelis.overview}
                                         id={pelis.id}
+                                        tipo = "movie"
                                     />
                                 )))}
                         </section>
