@@ -12,20 +12,47 @@ class Favoritas extends Component {
         }
     }
 
-    componentDidMount() {
+    cargarFavoritos() {
         let favoritos = JSON.parse(localStorage.getItem('favoritos'))
 
         if (!favoritos) {
             favoritos = []
         }
 
-        let peliculas = favoritos.filter(unFav => unFav.tipo === 'movie')
-        let series = favoritos.filter(unFav => unFav.tipo === 'tv')
+        if (favoritos.length === 0) {
+            this.setState({
+                peliculas: [],
+                series: []
+            })
+            return
+        }
 
-        this.setState({
-            peliculas: peliculas,
-            series: series
+        let peliculas = []
+        let series = []
+
+        favoritos.map(unFav => {
+            fetch(`https://api.themoviedb.org/3/${unFav.tipo}/${unFav.id}?api_key=e25593014aaf22d2e4b4abad5da519dd`)
+                .then(response => response.json())
+                .then(data => {
+                    data.tipo = unFav.tipo
+
+                    unFav.tipo === "movie"
+                        ? peliculas.push(data)
+                        : series.push(data)
+
+                    this.setState({
+                        peliculas: peliculas,
+                        series: series
+                    })
+                })
+                .catch(error => console.log(error))
+                
+                return null
         })
+    }
+
+    componentDidMount() {
+        this.cargarFavoritos()
     }
 
     borrarFavorito(id, tipo) {
@@ -39,13 +66,7 @@ class Favoritas extends Component {
 
         localStorage.setItem('favoritos', JSON.stringify(filtrados))
 
-        let peliculas = filtrados.filter(unFav => unFav.tipo === 'movie')
-        let series = filtrados.filter(unFav => unFav.tipo === 'tv')
-
-        this.setState({
-            peliculas: peliculas,
-            series: series
-        })
+        this.cargarFavoritos()
     }
 
     verMas(id) {
@@ -58,6 +79,14 @@ class Favoritas extends Component {
         return (
             <>
                 <Header />
+                {
+                    JSON.parse(localStorage.getItem('favoritos')) && 
+                    JSON.parse(localStorage.getItem('favoritos')).length > 0 &&
+                    this.state.peliculas.length === 0 &&
+                    this.state.series.length === 0 ? (
+                        <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
+                    ) : null
+                }
                 <h2 className="subtituloHome">Películas favoritas</h2>
                 <section className="seccionTarjetas">
                     {this.state.peliculas.length === 0 ? (
@@ -65,12 +94,12 @@ class Favoritas extends Component {
                     ) : (
                         this.state.peliculas.map((unaPelicula) => (
                             <article key={unaPelicula.id} className='tarjetaPeli'>
-                                <img className="imgTarjetas" src={unaPelicula.img} alt={unaPelicula.name} />
-                                <h3>{unaPelicula.name}</h3>
+                                <img className="imgTarjetas" src={`https://image.tmdb.org/t/p/w500${unaPelicula.poster_path}`} alt={unaPelicula.title} />
+                                <h3>{unaPelicula.title}</h3>
 
                                 {this.state.verMasId === unaPelicula.id ? (
                                     <div className='verMas'>
-                                        <p>{unaPelicula.desc}</p>
+                                        <p>{unaPelicula.overview}</p>
                                     </div>
                                 ) : ""}
 
@@ -87,7 +116,7 @@ class Favoritas extends Component {
                                 </ul>
 
                                 <button className='borrarFav' onClick={() => this.borrarFavorito(unaPelicula.id, unaPelicula.tipo)}>
-                                 <p>Eliminar de favoritos</p><img src="https://img.icons8.com/?size=100&id=99933&format=png&color=FFFFFF" className="basura"/>
+                                 <p>Eliminar de favoritos</p><img src="https://img.icons8.com/?size=100&id=99933&format=png&color=FFFFFF" className="basura" alt="eliminar favoritos"/>
                                 </button>
                             </article>
                         ))
@@ -101,12 +130,12 @@ class Favoritas extends Component {
                     ) : (
                         this.state.series.map((unaSerie) => (
                             <article key={unaSerie.id} className='tarjetaPeli'>
-                                <img className="imgTarjetas" src={unaSerie.img} alt={unaSerie.name} />
+                                <img className="imgTarjetas" src={`https://image.tmdb.org/t/p/w500${unaSerie.poster_path}`} alt={unaSerie.name} />
                                 <h3>{unaSerie.name}</h3>
 
                                 {this.state.verMasId === unaSerie.id ? (
                                     <div className='verMas'>
-                                        <p>{unaSerie.desc}</p>
+                                        <p>{unaSerie.overview}</p>
                                     </div>
                                 ) : ""}
 
@@ -123,7 +152,7 @@ class Favoritas extends Component {
                                 </ul>
 
                                 <button className='borrarFav' onClick={() => this.borrarFavorito(unaSerie.id, unaSerie.tipo)}>
-                                <p>Eliminar de favoritos</p><img src="https://img.icons8.com/?size=100&id=99933&format=png&color=FFFFFF" className="basura"/>
+                                <p>Eliminar de favoritos</p><img src="https://img.icons8.com/?size=100&id=99933&format=png&color=FFFFFF" className="basura" alt = "eliminar favoritos"/>
                                 </button>
                             </article>
                         ))

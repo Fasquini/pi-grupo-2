@@ -56,9 +56,6 @@ class UnaPelicula extends Component {
         if (filtrados.length === 0) {
             let obj = {
                 id: this.state.pelicula.id,
-                name: this.state.pelicula.title !== undefined ? this.state.pelicula.title : this.state.pelicula.name,
-                img: `https://image.tmdb.org/t/p/w500${this.state.pelicula.poster_path}`,
-                desc: this.state.pelicula.overview,
                 tipo: this.props.match.params.tipo
             }
 
@@ -144,7 +141,7 @@ class UnaPelicula extends Component {
                                                     }}
                                                 >
                                                     {this.state.esFavorito ? <><p>Agregado a favoritos</p>
-                                                <img src="https://img.icons8.com/?size=100&id=82769&format=png&color=209DAD" className="agregarFav" /></>: "Agregar a favoritos"}
+                                                <img src="https://img.icons8.com/?size=100&id=82769&format=png&color=209DAD" className="agregarFav" alt = "favoritos" /></>: "Agregar a favoritos"}
                                                 </button>
                                             </li>
                                         </ul>

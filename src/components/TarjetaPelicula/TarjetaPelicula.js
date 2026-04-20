@@ -97,7 +97,7 @@ class TarjetaPelicula extends Component {
                         <Link to="/Favoritas">
                             <button className='botonFav agregado'>
                             <p>Agregado a favoritos</p>
-                            <img src="https://img.icons8.com/?size=100&id=82769&format=png&color=209DAD" className="agregarFav" />
+                            <img src="https://img.icons8.com/?size=100&id=82769&format=png&color=209DAD" className="agregarFav" alt = "favoritos" />
                         </button>
                         </Link>
                     ) : (

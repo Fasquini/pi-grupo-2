@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Cookies from "universal-cookie";
-import { Link, withRouter } from "react-router-dom";
+import {withRouter } from "react-router-dom";
 import LiNavbar from "../LiNavbar/LiNavbar";
 const cookie = new Cookies()
 
