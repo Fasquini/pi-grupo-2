@@ -12,6 +12,10 @@ class Favoritas extends Component {
         }
     }
 
+    normalizarTipo(tipo) {
+        return tipo === "tv" || tipo === "serie" || tipo === "series" ? "tv" : "movie"
+    }
+
     cargarFavoritos() {
         let favoritos = JSON.parse(localStorage.getItem('favoritos'))
 
@@ -20,34 +24,30 @@ class Favoritas extends Component {
         }
 
         if (favoritos.length === 0) {
-            this.setState({
-                peliculas: [],
-                series: []
-            })
+            this.setState({ peliculas: [], series: [] })
             return
         }
 
-        let peliculas = []
-        let series = []
-
         favoritos.map(unFav => {
-            fetch(`https://api.themoviedb.org/3/${unFav.tipo}/${unFav.id}?api_key=e25593014aaf22d2e4b4abad5da519dd`)
+            let tipoNormalizado = this.normalizarTipo(unFav.tipo)
+
+            fetch(`https://api.themoviedb.org/3/${tipoNormalizado}/${unFav.id}?api_key=e25593014aaf22d2e4b4abad5da519dd`)
                 .then(response => response.json())
                 .then(data => {
-                    data.tipo = unFav.tipo
+    if (data) {
+        data.tipo = tipoNormalizado
 
-                    unFav.tipo === "movie"
-                        ? peliculas.push(data)
-                        : series.push(data)
-
-                    this.setState({
-                        peliculas: peliculas,
-                        series: series
-                    })
-                })
+        this.setState((estadoAnterior) => ({
+            peliculas: tipoNormalizado === "movie"
+                ? estadoAnterior.peliculas.concat(data)
+                : estadoAnterior.peliculas,
+            series: tipoNormalizado === "tv"
+                ? estadoAnterior.series.concat(data)
+                : estadoAnterior.series
+        }))
+    }
+})
                 .catch(error => console.log(error))
-                
-                return null
         })
     }
 
@@ -62,11 +62,16 @@ class Favoritas extends Component {
             favoritos = []
         }
 
-        let filtrados = favoritos.filter(unFav => !(unFav.id === id && unFav.tipo === tipo))
+        let tipoNormalizado = this.normalizarTipo(tipo)
+
+        let filtrados = favoritos.filter(unFav => !(unFav.id === id && this.normalizarTipo(unFav.tipo) === tipoNormalizado))
 
         localStorage.setItem('favoritos', JSON.stringify(filtrados))
 
-        this.cargarFavoritos()
+        this.setState((estadoAnterior) => ({
+            peliculas: estadoAnterior.peliculas.filter(p => !(p.id === id && this.normalizarTipo(p.tipo) === tipoNormalizado)),
+            series: estadoAnterior.series.filter(s => !(s.id === id && this.normalizarTipo(s.tipo) === tipoNormalizado))
+        }))
     }
 
     verMas(id) {
@@ -94,14 +99,14 @@ class Favoritas extends Component {
                     ) : (
                         this.state.peliculas.map((unaPelicula) => (
                             <article key={unaPelicula.id} className='tarjetaPeli'>
-                                <img className="imgTarjetas" src={`https://image.tmdb.org/t/p/w500${unaPelicula.poster_path}`} alt={unaPelicula.title} />
+                                <img className="imgTarjetas" src={unaPelicula.poster_path ? `https://image.tmdb.org/t/p/w500${unaPelicula.poster_path}` : "https://placehold.co/500x750?text=Sin+imagen"} alt={unaPelicula.title} />
                                 <h3>{unaPelicula.title}</h3>
 
                                 {this.state.verMasId === unaPelicula.id ? (
                                     <div className='verMas'>
                                         <p>{unaPelicula.overview}</p>
                                     </div>
-                                ) : ""}
+                                ) : null}
 
                                 <button className='botonMas' onClick={() => this.verMas(unaPelicula.id)}>
                                     {this.state.verMasId === unaPelicula.id ? "Ver menos" : "Ver más"}
@@ -130,14 +135,14 @@ class Favoritas extends Component {
                     ) : (
                         this.state.series.map((unaSerie) => (
                             <article key={unaSerie.id} className='tarjetaPeli'>
-                                <img className="imgTarjetas" src={`https://image.tmdb.org/t/p/w500${unaSerie.poster_path}`} alt={unaSerie.name} />
+                                <img className="imgTarjetas" src={unaSerie.poster_path ? `https://image.tmdb.org/t/p/w500${unaSerie.poster_path}` : "https://placehold.co/500x750?text=Sin+imagen"} alt={unaSerie.name} />
                                 <h3>{unaSerie.name}</h3>
 
                                 {this.state.verMasId === unaSerie.id ? (
                                     <div className='verMas'>
                                         <p>{unaSerie.overview}</p>
                                     </div>
-                                ) : ""}
+                                ) : null}
 
                                 <button className='botonMas' onClick={() => this.verMas(unaSerie.id)}>
                                     {this.state.verMasId === unaSerie.id ? "Ver menos" : "Ver más"}
