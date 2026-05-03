@@ -12,11 +12,7 @@ class Favoritas extends Component {
         }
     }
 
-    normalizarTipo(tipo) {
-        return tipo === "tv" || tipo === "serie" || tipo === "series" ? "tv" : "movie"
-    }
-
-    cargarFavoritos() {
+    componentDidMount() {
         let favoritos = JSON.parse(localStorage.getItem('favoritos'))
 
         if (!favoritos) {
@@ -28,31 +24,30 @@ class Favoritas extends Component {
             return
         }
 
-        favoritos.map(unFav => {
-            let tipoNormalizado = this.normalizarTipo(unFav.tipo)
+        let peliculasFavoritas = []
+        let seriesFavoritas = []
 
-            fetch(`https://api.themoviedb.org/3/${tipoNormalizado}/${unFav.id}?api_key=e25593014aaf22d2e4b4abad5da519dd`)
+        favoritos.map(unFav => {
+            fetch(`https://api.themoviedb.org/3/${unFav.tipo}/${unFav.id}?api_key=e25593014aaf22d2e4b4abad5da519dd`)
                 .then(response => response.json())
                 .then(data => {
-    if (data) {
-        data.tipo = tipoNormalizado
+                    if (data) {
+                        data.tipo = unFav.tipo
 
-        this.setState((estadoAnterior) => ({
-            peliculas: tipoNormalizado === "movie"
-                ? estadoAnterior.peliculas.concat(data)
-                : estadoAnterior.peliculas,
-            series: tipoNormalizado === "tv"
-                ? estadoAnterior.series.concat(data)
-                : estadoAnterior.series
-        }))
-    }
-})
+                        if (unFav.tipo === "movie") {
+                            peliculasFavoritas.push(data)
+                        } else {
+                            seriesFavoritas.push(data)
+                        }
+
+                        this.setState({
+                            peliculas: peliculasFavoritas,
+                            series: seriesFavoritas
+                        })
+                    }
+                })
                 .catch(error => console.log(error))
         })
-    }
-
-    componentDidMount() {
-        this.cargarFavoritos()
     }
 
     borrarFavorito(id, tipo) {
@@ -62,16 +57,14 @@ class Favoritas extends Component {
             favoritos = []
         }
 
-        let tipoNormalizado = this.normalizarTipo(tipo)
-
-        let filtrados = favoritos.filter(unFav => !(unFav.id === id && this.normalizarTipo(unFav.tipo) === tipoNormalizado))
+        let filtrados = favoritos.filter(unFav => !(unFav.id === id && unFav.tipo === tipo))
 
         localStorage.setItem('favoritos', JSON.stringify(filtrados))
 
-        this.setState((estadoAnterior) => ({
-            peliculas: estadoAnterior.peliculas.filter(p => !(p.id === id && this.normalizarTipo(p.tipo) === tipoNormalizado)),
-            series: estadoAnterior.series.filter(s => !(s.id === id && this.normalizarTipo(s.tipo) === tipoNormalizado))
-        }))
+        this.setState({
+            peliculas: this.state.peliculas.filter(pelis => !(pelis.id === id && pelis.tipo === tipo)),
+            series: this.state.series.filter(series => !(series.id === id && series.tipo === tipo))
+        })
     }
 
     verMas(id) {
