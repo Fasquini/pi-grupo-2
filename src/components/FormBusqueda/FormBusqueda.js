@@ -1,51 +1,40 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-class FormBusqueda extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            tipo: "movie",
-            valor: ""
-        };
-    }
+function FormBusqueda (props){
+    const [tipo, setTipo] = useState("movie")
+    const [valor, setValor] = useState("")
 
-    evitarSubmit(event) {
-        event.preventDefault();
-
-        if (this.state.valor !== "" && this.state.valor !== " ") {
-            this.props.history.push("/Resultados/" + this.state.tipo + "/" + this.state.valor);
+    function evitarSubmit(event){
+        event.preventDefault()
+        if(tipo!== "" && tipo!== " " ){
+            props.history.push("/Resultados/" + tipo + "/" + valor);
         }
     }
 
-    controlarCambios(event) {
-        this.setState({
-            valor: event.target.value
-        });
+    function controlarCambios(event) {
+        setValor(event.target.value)
     }
 
-    controlarSelect(event) {
-        this.setState({
-            tipo: event.target.value
-        });
-    }
-
-    render() {
-        return (
+    function controlarSelect(event) {
+        setTipo(event.target.value)}
+   
+    return (
             <form
                 className="formBuscar"
-                onSubmit={(event) => this.evitarSubmit(event)}
+                onSubmit={(event) => evitarSubmit(event)}
             >
                 <input
                     className="inputBuscar"
                     type="text"
                     placeholder="Buscar..."
-                    value={this.state.valor}
-                    onChange={(event) => this.controlarCambios(event)}
+                    value={valor}
+                    onChange={(event) => controlarCambios(event)}
                 />
 
-                <select className="selectBuscar" value={this.state.tipo}
-                    onChange={(event) => this.controlarSelect(event)}>
+                <select className="selectBuscar" value={tipo}
+                    onChange={(event) => controlarSelect(event)}>
                     <option value="movie" >Peliculas</option>
                     <option value="tv" >Series</option>
                 </select>
@@ -56,6 +45,5 @@ class FormBusqueda extends Component {
             </form>
         );
     }
-}
 
 export default withRouter(FormBusqueda);

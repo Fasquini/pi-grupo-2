@@ -1,160 +1,128 @@
-import React, { Component } from "react"
+import { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import Cookies from "universal-cookie";
 import Header from "../../components/Header/Header";
-const cookies = new Cookies()
 
-class UnaPelicula extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            pelicula: "",
-            esFavorito: false
-        }
-    }
+const cookies = new Cookies();
 
-    componentDidMount() {
-        let id = this.props.match.params.id
-        let tipo = this.props.match.params.tipo
+function UnaPelicula(props) {
+    const [pelicula, setPelicula] = useState(null);
+    const [esFavorito, setFavorito] = useState(false);
+    const tipo = props.match.params.tipo;
+    const id = props.match.params.id;
 
-        fetch(`https://api.themoviedb.org/3/${tipo}/${id}?api_key=81dded2ba544d830e45caeb888ae898e&`)
+    useEffect(() => {
+        fetch(`https://api.themoviedb.org/3/${tipo}/${id}?api_key=81dded2ba544d830e45caeb888ae898e`)
             .then(response => response.json())
             .then(data => {
-
-                let favoritos = JSON.parse(localStorage.getItem('favoritos'))
-
-                if (!favoritos) {
-                    favoritos = []
-                }
-
-                let filtrados = favoritos.filter(fav => fav.id === data.id && fav.tipo === tipo)
-
-                this.setState({
-                    pelicula: data,
-                    esFavorito: filtrados.length > 0
-                })
+                let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+                let filtrados = favoritos.filter(fav => fav.id === data.id && fav.tipo === tipo);
+                setFavorito(filtrados.length > 0);
+                setPelicula(data);
             })
-            .catch(error => console.log(error))
-    }
+            .catch(error => console.log(error));
+    }, []);
 
-    agregarFavorito() {
-        let sesion = cookies.get('user-auth-cookie')
+    function agregarFavorito() {
+        let sesion = cookies.get('user-auth-cookie');
 
         if (sesion === undefined) {
-            this.props.history.push("/Registro")
-            return
+            props.history.push("/Registro");
+            return;
         }
 
-        let favoritos = JSON.parse(localStorage.getItem('favoritos'))
-
-        if (!favoritos) {
-            favoritos = []
-        }
-
-        let filtrados = favoritos.filter(fav => fav.id === this.state.pelicula.id && fav.tipo === this.props.match.params.tipo)
+        let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+        let filtrados = favoritos.filter(fav => fav.id === pelicula.id && fav.tipo === tipo);
 
         if (filtrados.length === 0) {
-            let obj = {
-                id: this.state.pelicula.id,
-                tipo: this.props.match.params.tipo
-            }
-
-            favoritos.push(obj)
-            localStorage.setItem('favoritos', JSON.stringify(favoritos))
-
-            this.setState({ esFavorito: true })
+            favoritos.push({ id: pelicula.id, tipo });
+            localStorage.setItem('favoritos', JSON.stringify(favoritos));
+            setFavorito(true);
         }
     }
 
-    render() {
-        return (
-            <div className="detalle-pelicula-container">
-                <Header />
-                {
-                    this.state.pelicula === ""
-                        ? <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
-                        : null
-                }
+    return (
+        <div className="detalle-pelicula-container">
+            <Header />
 
-                {
-                    this.state.pelicula !== ""
-                        ? (
-                            <div>
+            {pelicula === null && (
+                <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
+            )}
 
-                                <h2 className="detalle-pelicula-titulo">{this.state.pelicula.title !== undefined
-                                    ? this.state.pelicula.title
-                                    : this.state.pelicula.name}</h2>
+            {pelicula !== null && (
+                <div>
+                    <h2 className="detalle-pelicula-titulo">
+                        {pelicula.title || pelicula.name}
+                    </h2>
 
-                                <div className="detalle-pelicula-card">
-                                    <img
-                                        className="detalle-pelicula-img"
-                                        src={`https://image.tmdb.org/t/p/w500${this.state.pelicula.poster_path !== undefined
-                                            ? this.state.pelicula.poster_path
-                                            : this.state.pelicula.backdrop_path}`}
-                                        alt={this.state.pelicula.title || this.state.pelicula.name}
-                                    />
+                    <div className="detalle-pelicula-card">
+                        <img
+                            className="detalle-pelicula-img"
+                            src={`https://image.tmdb.org/t/p/w500${pelicula.poster_path || pelicula.backdrop_path}`}
+                            alt={pelicula.title || pelicula.name}
+                        />
 
-                                    <div className="detalle-pelicula-info">
-                                        <h3 className="detalle-pelicula-subtitulo">Descripción</h3>
+                        <div className="detalle-pelicula-info">
+                            <h3 className="detalle-pelicula-subtitulo">Descripción</h3>
 
-                                        <p className="detalle-pelicula-descripcion">
-                                            {
-                                                this.state.pelicula.overview !== ""
-                                                    ? this.state.pelicula.overview
-                                                    : "Sin sinopsis disponible"
+                            <p className="detalle-pelicula-descripcion">
+                                {pelicula.overview || "Sin sinopsis disponible"}
+                            </p>
+
+                            <p className="detalle-pelicula-texto">
+                                <strong>Fecha de estreno:</strong>{" "}
+                                {pelicula.release_date || pelicula.first_air_date}
+                            </p>
+
+                            {tipo === "movie" && (
+                                <p className="detalle-pelicula-texto">
+                                    <strong>Duración:</strong> {pelicula.runtime} min
+                                </p>
+                            )}
+
+                            <p className="detalle-pelicula-texto">
+                                <strong>
+                                    {pelicula.genres?.length === 1 ? "Género:" : "Géneros:"}
+                                </strong>{" "}
+                                {pelicula.genres?.length > 0
+                                    ? pelicula.genres.map((gen, idx) => (
+                                        <span key={idx}>
+                                            {gen.name}{idx < pelicula.genres.length - 1 ? ", " : ""}
+                                        </span>
+                                    ))
+                                    : "Sin datos"}
+                            </p>
+
+                            {cookies.get("user-auth-cookie") !== undefined && (
+                                <ul className="favoritoDetalle">
+                                    <li>
+                                        <button
+                                            className={esFavorito ? "botonFav agregado" : "botonFav"}
+                                            onClick={() => {
+                                                if (esFavorito) {
+                                                    props.history.push("/Favoritas");
+                                                } else {
+                                                    agregarFavorito();
+                                                }
+                                            }}
+                                        >
+                                            {esFavorito
+                                                ? <>
+                                                    <p>Agregado a favoritos</p>
+                                                    <img src="https://img.icons8.com/?size=100&id=82769&format=png&color=209DAD" className="agregarFav" alt="favoritos" />
+                                                  </>
+                                                : "Agregar a favoritos"
                                             }
-                                        </p>
-
-                                        <p className="detalle-pelicula-texto"><strong>Fecha de estreno:</strong> {this.state.pelicula.release_date !== undefined ? this.state.pelicula.release_date : this.state.pelicula.first_air_date}</p>
-
-                                        {this.props.match.params.tipo === "movie" ? (
-                                            <p className="detalle-pelicula-texto"><strong>Duración:</strong> {this.state.pelicula.runtime} min</p>
-                                        ) : ""}
-
-                                        <p className="detalle-pelicula-texto">
-                                            <strong>{
-                                                this.state.pelicula.genres && this.state.pelicula.genres.length === 1
-                                                    ? "Género:"
-                                                    : "Géneros:"
-                                            }</strong> {
-                                                this.state.pelicula.genres && this.state.pelicula.genres.length > 0
-                                                    ? this.state.pelicula.genres.map((gen, idx) => (
-                                                        <span key={idx}>
-                                                            {gen.name}{idx < this.state.pelicula.genres.length - 1 ? ", " : ""}
-                                                        </span>
-                                                    ))
-                                                    : "Sin datos"
-                                            }
-                                        </p>
-
-                                        {cookies.get("user-auth-cookie") === undefined ? "" : (
-                                        <ul className="favoritoDetalle">
-                                            <li>
-                                                <button
-                                                    className={this.state.esFavorito ? "botonFav agregado" : "botonFav"}
-                                                    onClick={() => {
-                                                        if (this.state.esFavorito) {
-                                                            this.props.history.push("/Favoritas")
-                                                        } else {
-                                                            this.agregarFavorito()
-                                                        }
-                                                    }}
-                                                >
-                                                    {this.state.esFavorito ? <><p>Agregado a favoritos</p>
-                                                <img src="https://img.icons8.com/?size=100&id=82769&format=png&color=209DAD" className="agregarFav" alt = "favoritos" /></>: "Agregar a favoritos"}
-                                                </button>
-                                            </li>
-                                        </ul>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                        : null
-                }
-            </div>
-        )
-    }
+                                        </button>
+                                    </li>
+                                </ul>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 }
 
-export default withRouter(UnaPelicula)
+export default withRouter(UnaPelicula);
