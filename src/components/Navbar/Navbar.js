@@ -1,23 +1,20 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import Cookies from "universal-cookie";
 import {withRouter } from "react-router-dom";
 import LiNavbar from "../LiNavbar/LiNavbar";
 const cookie = new Cookies()
 
-class Navbar extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            datos: "",
-        };
-    }
+function Navbar (props) {
+
+    const [datos, setDatos] = useState('')
+
     
-    logOut() { 
+    function logOut() { 
         cookie.remove("user-auth-cookie") 
-        this.props.history.push("/");
+        props.history.push("/");
     }
 
-    render() {
+    
         let menu = cookie.get("user-auth-cookie") !== undefined ? [
             { name: "Home", path: "/", clase: "" },
             { name: "Populares", path: "/Populares", clase: "" },
@@ -62,6 +59,6 @@ class Navbar extends Component {
         );
     }
 
-}
+
 
 export default withRouter(Navbar);
