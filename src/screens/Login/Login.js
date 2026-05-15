@@ -1,113 +1,102 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import Cookies from "universal-cookie";
 import Header from "../../components/Header/Header";
 const cookie = new Cookies()
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      error: ""
-    };
+function Login(props) {
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    error: ""
+  })
+
+  function Cambios(e) {
+    setForm({ [e.target.name]: e.target.value })
   }
 
-  Cambios(e) {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  }
-
-  iniciarSesion(e) {
+  function iniciarSesion(e) {
     e.preventDefault();
 
-    if (this.state.email === "" || this.state.password === "") {
-      this.setState({
-        error: "Completá todos los campos"
-      });
+    if (form.email === "" || form.password === "") {
+      setForm({ error: "Completá todos los campos" });
       return;
     }
 
     let usuariosGuardados = localStorage.getItem("usuarios");
-    let usuarios = localStorage.getItem("usuarios") === null? [] : JSON.parse(localStorage.getItem("usuarios"));
+    let usuarios = localStorage.getItem("usuarios") === null ? [] : JSON.parse(localStorage.getItem("usuarios"));
 
     if (usuariosGuardados === null) {
-      this.setState({
-        error: "No hay usuarios registrados"
-      });
+      setForm({ error: "No hay usuarios registrados" });
       return;
-    } 
+    }
     else {
       usuarios = JSON.parse(usuariosGuardados);
     }
 
     let usuarioCorrecto = usuarios.filter(
       (usuario) =>
-        usuario.email === this.state.email &&
-        usuario.password === this.state.password
+        usuario.email === form.email &&
+        usuario.password === form.password
     );
 
     if (usuarioCorrecto.length === 0) {
-      this.setState({
-        error: "Email o contraseña incorrectos"
-      });
+      setForm({ error: "Email o contraseña incorrectos" })
       return;
     }
 
-    sessionStorage.setItem("usuarioLogueado", this.state.email);
-    cookie.set("user-auth-cookie", this.state.email)
+    sessionStorage.setItem("usuarioLogueado", form.email);
+    cookie.set("user-auth-cookie", form.email)
 
-    this.setState({
+    setForm({
       email: "",
       password: "",
       error: ""
     });
 
-    this.props.history.push("/");
+    props.history.push("/");
   }
 
-  render() {
-    return (
-      <section>
-        <Header />
-        <form className="usuario" onSubmit={(e) => this.iniciarSesion(e)}>
-          <h2>¡Bienvenido! Ingresá tu cuenta</h2>
 
-          <div>
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={this.state.email}
-              onChange={(e) => this.Cambios(e)}
-            />
-          </div>
+  return (
+    <section>
+      <Header />
+      <form className="usuario" onSubmit={iniciarSesion}>
+        <h2>¡Bienvenido! Ingresá tu cuenta</h2>
 
-          <div>
-            <label>Contraseña</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Contraseña"
-              value={this.state.password}
-              onChange={(e) => this.Cambios(e)}
-            />
-          </div>
+        <div>
+          <label>Email</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={Cambios}
+          />
+        </div>
 
-          <button type="submit">Iniciar sesión</button>
+        <div>
+          <label>Contraseña</label>
+          <input
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            value={form.password}
+            onChange={Cambios}
+          />
+        </div>
 
-          <p className="TengoOno">
-            <Link to="/Registro">Crear una cuenta</Link>
-          </p>
-        </form>
+        <button type="submit">Iniciar sesión</button>
 
-        {this.state.error !== "" ? <p className="Error">{this.state.error}</p> : null}
-      </section>
-    );
-  }
+        <p className="TengoOno">
+          <Link to="/Registro">Crear una cuenta</Link>
+        </p>
+      </form>
+
+      {form.error !== "" ? <p className="Error">{form.error}</p> : null}
+    </section>
+  );
+
 }
 
 export default withRouter(Login);

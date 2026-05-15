@@ -1,44 +1,36 @@
-import React, { Component } from "react"
+import React, { useState,  useEffect} from "react"
 import { Link, withRouter } from "react-router-dom";
 import Cookies from "universal-cookie";
 const cookies = new Cookies()
 
-class TarjetaPelicula extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            verMas: false,
-            esFavorito: false
-        }
-    }
-
-    componentDidMount() {
-        let favoritos = JSON.parse(localStorage.getItem('favoritos'))
+function TarjetaPelicula (props) {
+    const [verMas, setVerMas] = useState(false)
+    const [esFavorito, setesFavorito] = useState(false)
+    
+    useEffect(() => {
+            let favoritos = JSON.parse(localStorage.getItem('favoritos'))
 
         if (!favoritos) {
             favoritos = []
         }
 
         let filtrados = favoritos.filter(fav =>
-            fav.id === this.props.id &&
-            fav.tipo === this.props.tipo
+            fav.id === props.id &&
+            fav.tipo === props.tipo
         )
 
         if (filtrados.length > 0) {
-            this.setState({ esFavorito: true })
+            setesFavorito(true)
         }
-    }
-
-    VerMas() {
-        this.setState({
-            verMas: !this.state.verMas
         })
+
+    function FVerMas() {
+        setVerMas(!verMas)
     }
 
-    agregarFavorito() {
+    function agregarFavorito() {
         if (cookies.get("user-auth-cookie") === undefined) {
-            this.props.history.push("/Registro")
+            props.history.push("/Registro")
             return
         }
 
@@ -49,43 +41,43 @@ class TarjetaPelicula extends Component {
         }
 
         let filtrados = favoritos.filter(fav =>
-            fav.id === this.props.id &&
-            fav.tipo === this.props.tipo
+            fav.id === props.id &&
+            fav.tipo === props.tipo
         )
 
         if (filtrados.length === 0) {
             let obj = {
-                id: this.props.id,
-                tipo: this.props.tipo
+                id: props.id,
+                tipo: props.tipo
             }
 
             favoritos.push(obj)
             localStorage.setItem('favoritos', JSON.stringify(favoritos))
 
-            this.setState({ esFavorito: true })
+            setesFavorito(true)
         }
         
     }
 
-    render() {
+    
         return (
             <article className='tarjetaPeli'>
-                <img className="imgTarjetas" src={this.props.img} alt={this.props.name} />
-                <h3>{this.props.name}</h3>
+                <img className="imgTarjetas" src={props.img} alt={props.name} />
+                <h3>{props.name}</h3>
 
-                {this.state.verMas ? (
+                {verMas ? (
                     <div className='verMas'>
-                        <p>{this.props.desc}</p>
+                        <p>{props.desc}</p>
                     </div>
                 ) : ""}
 
-                <button className='botonMas' onClick={() => this.VerMas()}>
-                    {this.state.verMas ? "Ver menos" : "Ver más"}
+                <button className='botonMas' onClick={FVerMas}>
+                    {verMas ? "Ver menos" : "Ver más"}
                 </button>
 
                 <ul>
                     <li>
-                        <Link to={`/UnaPelicula/${this.props.id}/${this.props.tipo}`}>
+                        <Link to={`/UnaPelicula/${props.id}/${props.tipo}`}>
                             Ir a detalle
                         </Link>
                     </li>
@@ -93,7 +85,7 @@ class TarjetaPelicula extends Component {
 
                 {cookies.get("user-auth-cookie") === undefined ? "" : (
 
-                    this.state.esFavorito ? (
+                    esFavorito ? (
                         <Link to="/Favoritas">
                             <button className='botonFav agregado'>
                             <p>Agregado a favoritos</p>
@@ -101,7 +93,7 @@ class TarjetaPelicula extends Component {
                         </button>
                         </Link>
                     ) : (
-                        <button className='botonFav' onClick={() => this.agregarFavorito()}>
+                        <button className='botonFav' onClick={agregarFavorito}>
                             Agregar a favoritos
                         </button>
                     ))
@@ -109,7 +101,7 @@ class TarjetaPelicula extends Component {
                 }
             </article>
         )
-    }
+    
 }
 
 export default withRouter(TarjetaPelicula)

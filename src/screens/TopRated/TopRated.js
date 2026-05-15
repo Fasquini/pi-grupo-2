@@ -1,100 +1,82 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import TarjetaPeliculas from "../../components/TarjetaPelicula/TarjetaPelicula";
 import Header from "../../components/Header/Header";
 
-class TopRated extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            datos: "",
-            busqueda: "",
-            pagina: 1,
-            valor: ""
-        };
-    }
+function TopRated(props) {
+    const [datos, setDatos] = useState("")
+    const [pagina, setPagina] = useState(1)
+    const [valor, setValor] = useState("")
 
-    componentDidMount() {
+    useEffect(() => {
         fetch("https://api.themoviedb.org/3/movie/top_rated?api_key=e25593014aaf22d2e4b4abad5da519dd&page=1")
             .then(response => response.json())
-            .then(data =>
-                this.setState({
-                    datos: data,
-                    pagina: 1
-                })
-            )
-            .catch(error => console.log(error));
-    }
+            .then(data => setDatos(data))
+            .catch(error => console.log(error))
+    })
 
-    evitarSubmit(event) {
+    function evitarSubmit(event) {
         event.preventDefault()
     }
 
-    controlarCambios(event) {
-        this.setState({ valor: event.target.value })
+    function controlarCambios(event) {
+        setValor(event.target.value)
     }
 
-    filtrarPelis(textoAFiltrar) {
-        let filtrados = this.state.datos.results.filter((pelis) => pelis.title.toLowerCase().includes(textoAFiltrar.toLowerCase()))
+    function filtrarPelis(textoAFiltrar) {
+        let filtrados = datos.results.filter((pelis) => pelis.title.toLowerCase().includes(textoAFiltrar.toLowerCase()))
         return filtrados
     }
 
-    cargarMas = () => {
-        let numeroPagina = this.state.pagina + 1;
+    function cargarMas() {
+        let numeroPagina = pagina + 1;
 
         fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=e25593014aaf22d2e4b4abad5da519dd&page=${numeroPagina}`)
             .then(response => response.json())
             .then(data => {
-
-                this.setState({
-                    datos: {
-                        results: this.state.datos.results.concat(data.results),
-                    },
-                    pagina: numeroPagina
-                });
+                setDatos(datos.results.concat(data.results))
+                setPagina(numeroPagina)
             })
             .catch(error => console.log(error));
     };
 
-    render() {
+    return (
+        <>
+            {datos === "" ? (
+                <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
+            ) : (
+                <>
+                    <Header />
+                    <form onSubmit={evitarSubmit}>
+                        <input type="text" className="inputBuscar Filtro" placeholder="Buscar..." onChange={controlarCambios} value={valor} />
+                    </form>
 
-        return (
-            <>
-                {this.state.datos === "" ? (
-                    <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
-                ) : (
-                    <>
-                        <Header />
-                        <form onSubmit={(event) => this.evitarSubmit(event)}>
-                            <input type="text" className="inputBuscar Filtro" placeholder="Buscar..." onChange={(event) => this.controlarCambios(event)} value={this.state.valor} />
-                        </form>
+                    <h2 className="subtituloHome">Top Rated</h2>
 
-                        <h2 className="subtituloHome">Top Rated</h2>
+                    <section className="seccionTarjetas">
+                        {(filtrarPelis(valor).length === 0) ? (<p>No se encontraron resultados</p>) :
 
-                        <section className="seccionTarjetas">
-                            {(this.filtrarPelis(this.state.valor).length === 0) ? (<p>No se encontraron resultados</p>) :
+                            (filtrarPelis(valor).map((pelis, idx) => (
+                                <TarjetaPeliculas
+                                    key={idx}
+                                    img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`}
+                                    name={pelis.title}
+                                    desc={pelis.overview}
+                                    id={pelis.id}
+                                    tipo="movie"
+                                />
+                            )))}
 
-                                (this.filtrarPelis(this.state.valor).map((pelis, idx) => (
-                                    <TarjetaPeliculas
-                                        key={idx}
-                                        img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`}
-                                        name={pelis.title}
-                                        desc={pelis.overview}
-                                        id={pelis.id}
-                                        tipo= "movie"
-                                    />
-                                )))}
+                    </section>
+                    {valor === "" ? (
+                        <button className="botonVerTodas" onClick={cargarMas}>
+                            Cargar más
+                        </button>
+                    ) : null}
+                </>
+            )}
+        </>
+    );
 
-                        </section>
-                        {this.state.valor === "" ? (
-                            <button className="botonVerTodas" onClick={this.cargarMas}>
-                                Cargar más
-                            </button>
-                        ) : null}
-                    </>
-                )}
-            </>
-        );
-    }
 }
 
 export default TopRated;

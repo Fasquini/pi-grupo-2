@@ -1,52 +1,40 @@
-import React, { Component } from "react";
+import React, { useState,  useEffect} from "react";
 import { Link } from "react-router-dom";
 import TarjetaPeliculas from "../TarjetaPelicula/TarjetaPelicula";
 
-class SeccionHome extends Component {
-    constructor(props) {
-        super();
-        this.state = {
-            datos: "",
-        }
+function SeccionHome(props) {
+    const [datos, setDatos] = useState("")
 
-    }
-
-    componentDidMount() {
-        fetch("https://api.themoviedb.org/3/movie/" + this.props.tipo + "?api_key=e25593014aaf22d2e4b4abad5da519dd")
+    useEffect(() => {
+        fetch("https://api.themoviedb.org/3/movie/" + props.tipo + "?api_key=e25593014aaf22d2e4b4abad5da519dd")
             .then(response => response.json())
-            .then(data =>
-                this.setState({
-                    datos: data
-                })
-            )
+            .then(data => setDatos(data))
             .catch(error => console.log(error))
-    }
-
-    render() {
-        return (
-            <>
-                {this.state.datos === "" ? <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" /> :
-                    <>
-                        <section className="seccionTarjetas">
-                            {this.state.datos.results.filter((pelis, idx) => 8 > idx).map((pelis, idx) => (
-                                <TarjetaPeliculas key={idx} tipo="movie" img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`} name={pelis.title} desc={pelis.overview} id={pelis.id} />
-                            ))}
-                        </section>
-
-                        <Link to={this.props.path} className='botonVerTodas'>
-                            {this.props.tipo === "top_rated" ? "Top Rated" : ""}
-                            {this.props.tipo === "popular" ? "Ver Populares" : ""}
-                            {this.props.tipo === "upcoming" ? "Ver estrenos" : ""}
-                        </Link>
+    })
 
 
+    return (
+        <>
+            {datos === "" ? <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" /> :
+                <>
+                    <section className="seccionTarjetas">
+                        {datos.results.filter((pelis, idx) => 8 > idx).map((pelis, idx) => (
+                            <TarjetaPeliculas key={idx} tipo="movie" img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`} name={pelis.title} desc={pelis.overview} id={pelis.id} />
+                        ))}
+                    </section>
 
-                    </>
-                }
+                    <Link to={props.path} className='botonVerTodas'>
+                        {props.tipo === "top_rated" ? "Top Rated" : ""}
+                        {props.tipo === "popular" ? "Ver Populares" : ""}
+                        {props.tipo === "upcoming" ? "Ver estrenos" : ""}
+                    </Link>
 
-            </>
-        )
-    }
+                </>
+            }
+
+        </>
+    )
+
 }
 
 export default SeccionHome
