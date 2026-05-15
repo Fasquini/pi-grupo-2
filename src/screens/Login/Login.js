@@ -73,7 +73,7 @@ function Login(props) {
             name="email"
             placeholder="Email"
             value={email}
-            onChange={()=>Cambios()}
+            onChange={(e)=>Cambios(e)}  
           />
         </div>
 
@@ -84,7 +84,7 @@ function Login(props) {
             name="password"
             placeholder="Contraseña"
             value={password}
-            onChange={()=>Cambios()}
+            onChange={(e)=>Cambios(e)}  
           />
         </div>
 
