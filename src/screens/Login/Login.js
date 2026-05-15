@@ -63,7 +63,7 @@ function Login(props) {
   return (
     <section>
       <Header />
-      <form className="usuario" onSubmit={()=>iniciarSesion()}>
+      <form className="usuario" onSubmit={(e)=>iniciarSesion(e)}>
         <h2>¡Bienvenido! Ingresá tu cuenta</h2>
 
         <div>
