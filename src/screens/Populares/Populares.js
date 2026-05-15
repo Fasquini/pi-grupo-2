@@ -1,80 +1,70 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import TarjetaPelicula from "../../components/TarjetaPelicula/TarjetaPelicula";
 import Header from "../../components/Header/Header";
 
-class SeccionPopulares extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            datos: "",
-            busqueda: "",
-            pagina: 1,
-            valor: ""
-        };
-    }
+function SeccionPopulares(props) {
+    const [datos, setDatos] = useState("")
+    const [busqueda, setBusqueda] = useState("")
+    const [pagina, setPagina] = useState(1)
+    const [valor, setValor] = useState("")
 
-    componentDidMount() {
+    useEffect(() => {
         fetch("https://api.themoviedb.org/3/movie/popular?api_key=e25593014aaf22d2e4b4abad5da519dd")
             .then(response => response.json())
-            .then(data =>
-                this.setState({
-                    datos: data,
-                    pagina: 1
-                })
-            )
+            .then(data => {
+                setDatos(data)
+                setPagina(1)
+            })
             .catch(error => console.log(error));
-    }
+    }, [])
 
-    evitarSubmit(event) {
+    function evitarSubmit(event) {
         event.preventDefault()
     }
 
-    controlarCambios(event) {
-        this.setState({ valor: event.target.value })
+    function controlarCambios(event) {
+        setValor(event.target.value)
     }
 
-    filtrarPelis(textoAFiltrar) {
-        let filtrados = this.state.datos.results.filter((pelis) => pelis.title.toLowerCase().includes(textoAFiltrar.toLowerCase()))
+    function filtrarPelis(textoAFiltrar) {
+        let filtrados = datos.results.filter((pelis) => pelis.title.toLowerCase().includes(textoAFiltrar.toLowerCase()))
         return filtrados
     }
 
-    cargarMas() {
-        let numeroPagina = this.state.pagina + 1
+    function cargarMas() {
+        let numeroPagina = pagina + 1
 
         fetch(`https://api.themoviedb.org/3/movie/popular?api_key=e25593014aaf22d2e4b4abad5da519dd&page=${numeroPagina}`)
             .then(response => response.json())
             .then(data => {
 
-                this.setState({
-                    datos: {
-                        results: this.state.datos.results.concat(data.results),
-                    },
-                    pagina: numeroPagina
+                setDatos({
+                    results: datos.results.concat(data.results),
                 })
+                setPagina(numeroPagina)
             })
             .catch(error => console.log(error))
     }
 
-    render() {
         return (
             <>
-                {this.state.datos === "" ? (
+                {datos === "" ? (
                     <img className="loader" src="https://i.gifer.com/ZZ5H.gif" alt="loader" />
                 ) : (
                     <>
                         <Header />
 
-                        <form onSubmit={(event) => this.evitarSubmit(event)}>
-                            <input type="text" className="inputBuscar Filtro" placeholder="Buscar..." onChange={(event) => this.controlarCambios(event)} value={this.state.valor} />
+                        <form onSubmit={(event) => evitarSubmit(event)}>
+                            <input type="text" className="inputBuscar Filtro" placeholder="Buscar..." onChange={(event) => controlarCambios(event)} value={valor} />
                         </form>
 
 
                         <h2 className="subtituloHome">Populares</h2>
 
                         <section className="seccionTarjetas">
-                            {(this.filtrarPelis(this.state.valor).length === 0) ? (<p>No se encontraron resultados para: "{this.state.valor}"</p>) :
+                            {(filtrarPelis(valor).length === 0) ? (<p>No se encontraron resultados para: "{valor}"</p>) :
 
-                                (this.filtrarPelis(this.state.valor).map((pelis, idx) => (
+                                (filtrarPelis(valor).map((pelis, idx) => (
                                     <TarjetaPelicula
                                         key={idx}
                                         img={`https://image.tmdb.org/t/p/w500${pelis.poster_path}`}
@@ -85,8 +75,8 @@ class SeccionPopulares extends Component {
                                     />
                                 )))}
                         </section>
-                        {this.state.valor === "" ? (
-                            <button className="botonVerTodas" onClick={() => this.cargarMas()}>
+                        {valor === "" ? (
+                            <button className="botonVerTodas" onClick={() => cargarMas()}>
                                 Cargar más
                             </button>
                         ) : null}
@@ -94,7 +84,6 @@ class SeccionPopulares extends Component {
                 )}
             </>
         );
-    }
 }
 
 export default SeccionPopulares;
